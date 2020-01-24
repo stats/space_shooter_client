@@ -53,11 +53,11 @@ public class SB_Game
         {
             changes.ForEach((obj) =>
         {
-              if (obj.Field == "current_wave" || obj.Field == "enemies_spawned" || obj.Field == "enemies_killed")
-              {
-                  RoomManager.SetWaveText("Wave: " + gameRoom.State.current_wave + " Enemies Killed: " + gameRoom.State.enemies_killed + "/" + gameRoom.State.enemies_spawned);
-              }
-          });
+            if (obj.Field == "current_wave" || obj.Field == "enemies_spawned" || obj.Field == "enemies_killed")
+            {
+                RoomManager.SetWaveText("Wave: " + gameRoom.State.current_wave + " Enemies Killed: " + gameRoom.State.enemies_killed + "/" + gameRoom.State.enemies_spawned);
+            }
+        });
         };
         gameRoom.State.ships.OnAdd += OnShipAdd;
         gameRoom.State.ships.OnRemove += OnShipRemove;
@@ -148,6 +148,7 @@ public class SB_Game
         hud.SetPrimary((float)ship.primary_cooldown / (float)ship.primary_cooldown_max);
         hud.SetSpecial((float)ship.special_cooldown / (float)ship.special_cooldown_max);
         hud.SetShields(ship.shields, ship.max_shields);
+        hud.SetShieldRecharge((float)ship.shields_recharge_cooldown / (float)ship.shields_recharge_time);
         hud.SetExperience((int)(ship.kills - ship.previous_level), (int)(ship.next_level - ship.previous_level));
 
         RoomManager.AddPlayerHUD(ship.uuid, hud);
@@ -156,39 +157,44 @@ public class SB_Game
         {
             changes.ForEach((obj) =>
         {
-              GameObject ship_go;
-              if (ships.TryGetValue(ship, out ship_go))
-              {
-                  if (obj.Field == "position")
-                  {
-                      Vector3 next_position = ship_go.transform.position;
-                      Position pos = (Position)obj.Value;
-                      next_position.x = pos.x;
-                      next_position.y = pos.y;
-                      ship_go.transform.position = next_position;
-                  }
-                  if (obj.Field == "primary_cooldown")
-                  {
-                      RoomManager.UpdatePlayerHUDPrimary(ship.uuid, (float)ship.primary_cooldown / (float)ship.primary_cooldown_max);
-                  }
-                  if (obj.Field == "special_cooldown")
-                  {
-                      RoomManager.UpdatePlayerHUDSpecial(ship.uuid, (float)ship.special_cooldown / (float)ship.special_cooldown_max);
-                  }
-                  if (obj.Field == "shields" || obj.Field == "shields_max")
-                  {
-                      RoomManager.UpdatePlayerHUDShields(ship.uuid, ship.shields, ship.max_shields);
-                  }
-                  if (obj.Field == "kills")
-                  {
-                      RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previous_level), (int)(ship.next_level - ship.previous_level));
-                  }
-              }
-              else
-              {
-                  Debug.LogError("[SB_RoomManager] Could not get ship: " + key);
-              }
-          });
+            GameObject ship_go;
+            if (ships.TryGetValue(ship, out ship_go))
+            {
+                if (obj.Field == "position")
+                {
+                    Vector3 next_position = ship_go.transform.position;
+                    Position pos = (Position)obj.Value;
+                    next_position.x = pos.x;
+                    next_position.y = pos.y;
+                    ship_go.transform.position = next_position;
+                }
+                if (obj.Field == "primary_cooldown")
+                {
+                    RoomManager.UpdatePlayerHUDPrimary(ship.uuid, (float)ship.primary_cooldown / (float)ship.primary_cooldown_max);
+                }
+                if (obj.Field == "special_cooldown")
+                {
+                    RoomManager.UpdatePlayerHUDSpecial(ship.uuid, (float)ship.special_cooldown / (float)ship.special_cooldown_max);
+                }
+                if (obj.Field == "shields" || obj.Field == "shields_max")
+                {
+                    RoomManager.UpdatePlayerHUDShields(ship.uuid, ship.shields, ship.max_shields);
+                }
+                if (obj.Field == "shields_recharge_time" || obj.Field == "shields_recharge_cooldown")
+                {
+
+                    hud.SetShieldRecharge((float)ship.shields_recharge_cooldown / (float)ship.shields_recharge_time);
+                }
+                if (obj.Field == "kills")
+                {
+                    RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previous_level), (int)(ship.next_level - ship.previous_level));
+                }
+            }
+            else
+            {
+                Debug.LogError("[SB_RoomManager] Could not get ship: " + key);
+            }
+        });
         };
     }
 
@@ -216,25 +222,25 @@ public class SB_Game
         {
             changes.ForEach((obj) =>
         {
-              GameObject enemy_go;
-              if (enemies.TryGetValue(enemy, out enemy_go))
-              {
-                  if (obj.Field == "position")
-                  {
-                  //Debug.Log("Changing X " + obj.Value);
-                  Vector3 next_position = enemy_go.transform.position;
-                      Position pos = (Position)obj.Value;
-                      next_position.x = pos.x;
-                      next_position.y = pos.y;
-                      enemy_go.transform.rotation = Quaternion.FromToRotation(Vector3.up, next_position - enemy_go.transform.position);
-                      enemy_go.transform.position = next_position;
-                  }
-              }
-              else
-              {
-                  Debug.LogError("[SB_RoomManager] Could not get enemy game object: " + key);
-              }
-          });
+            GameObject enemy_go;
+            if (enemies.TryGetValue(enemy, out enemy_go))
+            {
+                if (obj.Field == "position")
+                {
+                    //Debug.Log("Changing X " + obj.Value);
+                    Vector3 next_position = enemy_go.transform.position;
+                    Position pos = (Position)obj.Value;
+                    next_position.x = pos.x;
+                    next_position.y = pos.y;
+                    enemy_go.transform.rotation = Quaternion.FromToRotation(Vector3.up, next_position - enemy_go.transform.position);
+                    enemy_go.transform.position = next_position;
+                }
+            }
+            else
+            {
+                Debug.LogError("[SB_RoomManager] Could not get enemy game object: " + key);
+            }
+        });
         };
     }
 
@@ -262,23 +268,23 @@ public class SB_Game
         {
             changes.ForEach((obj) =>
         {
-              GameObject bullet_go;
-              if (bullets.TryGetValue(bullet, out bullet_go))
-              {
-                  if (obj.Field == "position")
-                  {
-                      Vector3 next_position = bullet_go.transform.position;
-                      Position pos = (Position)obj.Value;
-                      next_position.x = pos.x;
-                      next_position.y = pos.y;
-                      bullet_go.transform.position = next_position;
-                  }
-              }
-              else
-              {
-                  Debug.LogError("[SB_RoomManager] Could not get bullet: " + key);
-              }
-          });
+            GameObject bullet_go;
+            if (bullets.TryGetValue(bullet, out bullet_go))
+            {
+                if (obj.Field == "position")
+                {
+                    Vector3 next_position = bullet_go.transform.position;
+                    Position pos = (Position)obj.Value;
+                    next_position.x = pos.x;
+                    next_position.y = pos.y;
+                    bullet_go.transform.position = next_position;
+                }
+            }
+            else
+            {
+                Debug.LogError("[SB_RoomManager] Could not get bullet: " + key);
+            }
+        });
         };
     }
 

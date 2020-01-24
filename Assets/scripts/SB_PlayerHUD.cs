@@ -67,11 +67,17 @@ public class SB_PlayerHUD : MonoBehaviour
       m_ShieldText.text = shield + "/" + shieldMax;
     }
 
+    public void SetShieldRecharge(float recharge)
+    {
+        if (!m_ShieldRechargeMask) return;
+        m_ShieldRechargeMask.setValue(recharge);
+    }
+
     public void SetExperience(int experience, int nextLevel)
     {
       if(!m_ExperienceMask || !m_ExperienceText) return;
 
-      m_ShieldMask.setValue((float)experience/(float)nextLevel);
+      m_ExperienceMask.setValue((float)experience/(float)nextLevel);
       m_ExperienceText.text = experience + "/" + nextLevel;
     }
 
