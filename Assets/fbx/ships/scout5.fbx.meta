@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: 37f4d7aa49f56884ba364686136a57fa
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      74: 253806346430804359
+    second: Scout5|CubeAction
+  - first:
+      74: -8424377391260964545
+    second: Scout5|CubeAction.003
+  - first:
+      74: -2458937124882840732
+    second: Scout5|CubeAction.004
+  - first:
+      74: -6052704099748112072
+    second: Scout5|CubeAction.005
+  - first:
+      74: -6982421583637056911
+    second: Scout5|CubeAction.007
+  - first:
+      74: 4119704298467502317
+    second: Scout5|Defender2.001Action
+  - first:
+      74: -5156769399629273548
+    second: Scout5|Defender2.001Action.002
+  - first:
+      74: 1939031663343380067
+    second: Scout5|Defender2.001Action.003
+  - first:
+      74: 6788495740098221958
+    second: Scout5|Defender2Action
+  - first:
+      74: 7007382224405865764
+    second: Scout5|DefenderAction
+  - first:
+      74: -1217721971124892277
+    second: Scout5|ExplorerAction
+  - first:
+      74: 610101635514759223
+    second: Scout5|ExplorerAction.001
+  - first:
+      74: 1740326145147064349
+    second: Scout5|ExplorerAction.002
+  - first:
+      74: -7901957923009475962
+    second: Scout5|ExplorerAction.003
+  - first:
+      74: -6032664077251707063
+    second: Scout5|ExplorerAction.004
+  - first:
+      74: 6841755351240435154
+    second: Scout5|FighterAction
+  - first:
+      74: 6385567576530247496
+    second: Scout5|FighterAction.001
+  - first:
+      74: -310656939317400857
+    second: Scout5|FighterAction.002
+  - first:
+      74: -2791905725707104812
+    second: Scout5|FighterAction.003
+  - first:
+      74: 2311770170287072757
+    second: Scout5|FighterAction.004
+  - first:
+      74: 6512631826123988775
+    second: Scout5|IcosphereAction
+  - first:
+      74: -866990829222052929
+    second: Scout5|Scout.002Action
+  - first:
+      74: 145063411411407422
+    second: Scout5|Scout.002Action.001
+  - first:
+      74: 5091270380093485118
+    second: Scout5|Scout.002Action.002
+  - first:
+      74: -3553454893148634621
+    second: Scout5|Scout.002Action.003
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

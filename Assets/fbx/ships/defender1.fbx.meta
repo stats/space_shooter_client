@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: 65d392195985f4340a50f59573428e7c
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      74: 7949828414526312277
+    second: Defender|CubeAction
+  - first:
+      74: 636594365381793337
+    second: Defender|CubeAction.003
+  - first:
+      74: -5167243186775619814
+    second: Defender|CubeAction.004
+  - first:
+      74: 7563994334440038066
+    second: Defender|CubeAction.005
+  - first:
+      74: 2342509552701932193
+    second: Defender|CubeAction.007
+  - first:
+      74: -3867838088941141531
+    second: Defender|Defender2.001Action
+  - first:
+      74: -7587458501402652144
+    second: Defender|Defender2.001Action.002
+  - first:
+      74: 7149122532765107416
+    second: Defender|Defender2.001Action.003
+  - first:
+      74: 6519714149510759095
+    second: Defender|Defender2Action
+  - first:
+      74: -7428900839052944334
+    second: Defender|DefenderAction
+  - first:
+      74: 5108495738094561993
+    second: Defender|ExplorerAction
+  - first:
+      74: 8616290339417307159
+    second: Defender|ExplorerAction.001
+  - first:
+      74: 8401828368266073200
+    second: Defender|ExplorerAction.002
+  - first:
+      74: 7464499419628473212
+    second: Defender|ExplorerAction.003
+  - first:
+      74: -4158522197460081467
+    second: Defender|ExplorerAction.004
+  - first:
+      74: 5867106032827055111
+    second: Defender|FighterAction
+  - first:
+      74: 4052722052170291499
+    second: Defender|FighterAction.001
+  - first:
+      74: -2674497870953866486
+    second: Defender|FighterAction.002
+  - first:
+      74: -2186666743195063447
+    second: Defender|FighterAction.003
+  - first:
+      74: 1220965630022575052
+    second: Defender|FighterAction.004
+  - first:
+      74: 3310124282246187145
+    second: Defender|IcosphereAction
+  - first:
+      74: -4301641305715306561
+    second: Defender|Scout.002Action
+  - first:
+      74: 5772454140462407307
+    second: Defender|Scout.002Action.001
+  - first:
+      74: 3883333480800567257
+    second: Defender|Scout.002Action.002
+  - first:
+      74: -3140083199373362142
+    second: Defender|Scout.002Action.003
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 0
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
