@@ -140,20 +140,12 @@ namespace ZombieHeadGames.UI
             }
         }
 
-        public void UpdateHUD()
-        {
-            if (m_HUD != null)
-            {
-                m_HUD.UpdateHUD();
-            }
-        }
-
         public void ShowHUD()
         {
             if(m_HUD != null)
             {
                 Debug.Log("Show HUD");
-                m_HUD.showHUD();
+                m_HUD.ShowHUD();
             }
         }
 
@@ -161,7 +153,8 @@ namespace ZombieHeadGames.UI
         {
             if (m_HUD != null)
             {
-                m_HUD.hideHUD();
+                m_HUD.HideHUD();
+                m_HUD.ResetHUD();
             }
         }
         #endregion 
