@@ -55,10 +55,26 @@ public class SB_RoomManager : MonoBehaviour
         shipyard.EnterShipyard();
     }
 
+    public void CallUpgradeShip()
+    {
+        if (shipyard == null) return;
+        shipyard.CallUpgradeShip();
+    }
+
     public void CallPlayShip()
     {
         if (shipyard == null) return;
         shipyard.CallPlayShip();
+    }
+
+    public void CallDestroyShip()
+    {
+        shipyard.CallDestroyShip();
+    }
+
+    public void CallBuildShip(SB_Shipbuilder_Screen screen)
+    {
+        shipyard.CallBuildShip(screen);
     }
 
     public async Task<Room<T>> JoinOrCreate<T>(string name, Dictionary<string, object> options)

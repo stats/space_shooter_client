@@ -16,9 +16,9 @@ public class PlayerData
     public static int UpgradePointsSpent = 0;
     public static Dictionary<string, int> UpgradePoints = new Dictionary<string, int>()
     {
-        {"weapon_damage", 0},
-        {"weapon_range", 0},
-        {"weapon_fire_rate", 0},
+        {"damage", 0},
+        {"range", 0},
+        {"fire_rate", 0},
         {"accelleration", 0},
         {"speed", 0},
         {"shields_max", 0},
@@ -61,9 +61,9 @@ public class PlayerData
         PlayerData.UpgradePointsSpent = 0;
         PlayerData.UpgradePoints = new Dictionary<string, int>()
         {
-            {"weapon_damage", 0},
-            {"weapon_range", 0},
-            {"weapon_fire_rate", 0},
+            {"damage", 0},
+            {"range", 0},
+            {"fire_rate", 0},
             {"accelleration", 0},
             {"speed", 0},
             {"shields_max", 0},

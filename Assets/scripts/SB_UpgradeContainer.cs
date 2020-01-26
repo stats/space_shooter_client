@@ -25,22 +25,29 @@ public class SB_UpgradeContainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(PlayerData.UpgradePoints[m_UpgradeKey] > 0)
+        try
         {
-            m_Decrease.SetActive(true);
-        } 
-        else
-        {
-            m_Decrease.SetActive(false);
-        }
+            if (PlayerData.UpgradePoints[m_UpgradeKey] > 0)
+            {
+                m_Decrease.SetActive(true);
+            }
+            else
+            {
+                m_Decrease.SetActive(false);
+            }
 
-        if( PlayerData.CurrentShip() != null && PlayerData.CurrentShip().upgrade_points > 0)
+            if (PlayerData.CurrentShip() != null && PlayerData.CurrentShip().upgrade_points > 0)
+            {
+                m_Increase.SetActive(true);
+            }
+            else
+            {
+                m_Increase.SetActive(false);
+            }
+        } 
+        catch
         {
-            m_Increase.SetActive(true);
-        }
-        else 
-        {
-            m_Increase.SetActive(false);
+            Debug.LogError("Could not process: " + m_UpgradeKey + " Upgrade Key");
         }
     }
 
