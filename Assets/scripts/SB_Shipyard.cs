@@ -27,9 +27,16 @@ public class SB_Shipyard
         {
             Dictionary<string, object> options = new Dictionary<string, object>()
       {{"token", PlayerPrefs.GetString("token")}};
-
-            shipBuilderRoom = await RoomManager.client.JoinOrCreate<Schema>("ShipBuilderRoom", options);
-            shipBuilderRoom.OnMessage += OnShipBuilderMessage;
+            try
+            {
+                shipBuilderRoom = await RoomManager.client.JoinOrCreate<Schema>("ShipBuilderRoom", options);
+                shipBuilderRoom.OnMessage += OnShipBuilderMessage;
+            }
+            catch
+            {
+                /** Most likely the server down **/
+                RoomManager.HandleServerDown();
+            }
         }
     }
 

@@ -189,6 +189,10 @@ public class SB_Game
                 {
                     RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previous_level), (int)(ship.next_level - ship.previous_level));
                 }
+                if (obj.Field == "level")
+                {
+                    RoomManager.ShowMessage(ship.name + " is now level " + ship.level + ". " + (int)(ship.next_level - ship.previous_level) + " kills to next level.", 3);
+                }
             }
             else
             {

@@ -30,6 +30,7 @@ public class SB_RoomManager : MonoBehaviour
     public UnityEvent onMatchFound = new UnityEvent();
     public UnityEvent onLoginFailure = new UnityEvent();
     public UnityEvent onBattleLost = new UnityEvent();
+    public UnityEvent onServerDown = new UnityEvent();
 
     public Client client;
 
@@ -87,12 +88,16 @@ public class SB_RoomManager : MonoBehaviour
         return await client.ConsumeSeatReservation<T>(response, headers);
     }
 
+    public void HandleServerDown()
+    {
+        if (onServerDown == null) return;
+        onServerDown.Invoke();
+    }
+
     public void HandleShipListUpdated()
     {
-        if (onUpdatedShipList != null)
-        {
-            onUpdatedShipList.Invoke();
-        }
+        if (onUpdatedShipList == null) return;
+        onUpdatedShipList.Invoke();
     }
 
     public void HandleErrorMessage(string message)
