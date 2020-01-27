@@ -281,6 +281,7 @@ public class SB_Game
                     Position pos = (Position)obj.Value;
                     next_position.x = pos.x;
                     next_position.y = pos.y;
+                    bullet_go.transform.rotation = Quaternion.FromToRotation(Vector3.up, next_position - bullet_go.transform.position);
                     bullet_go.transform.position = next_position;
                 }
             }
