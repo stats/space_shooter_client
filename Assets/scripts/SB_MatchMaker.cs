@@ -14,7 +14,7 @@ public class SB_MatchMaker
 {
 
     private SB_RoomManager RoomManager;
-    private Room<Schema> matchRoom;
+    private Room<IndexedDictionary<string,object>> matchRoom;
 
     public SB_MatchMaker(SB_RoomManager manager)
     {
@@ -24,7 +24,7 @@ public class SB_MatchMaker
     public async void EnterMatchMaker(Dictionary<string, object> options)
     {
 
-        matchRoom = await RoomManager.JoinOrCreate<Schema>("MatchMakerRoom", options);
+        matchRoom = await RoomManager.JoinOrCreate<IndexedDictionary<string,object>>("MatchMakerRoom", options);
         matchRoom.OnMessage += OnMatchMessage;
 
         RoomManager.HandleOnEnterMatchMaking();

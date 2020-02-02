@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 public class SB_Shipyard
 {
-    private Room<Schema> shipBuilderRoom;
+    private Room<IndexedDictionary<string,object>> shipBuilderRoom;
 
     private SB_RoomManager RoomManager;
 
@@ -29,7 +29,7 @@ public class SB_Shipyard
       {{"token", PlayerPrefs.GetString("token")}};
             try
             {
-                shipBuilderRoom = await RoomManager.client.JoinOrCreate<Schema>("ShipBuilderRoom", options);
+                shipBuilderRoom = await RoomManager.client.JoinOrCreate<IndexedDictionary<string,object>>("ShipBuilderRoom", options);
                 shipBuilderRoom.OnMessage += OnShipBuilderMessage;
             }
             catch

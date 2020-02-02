@@ -137,7 +137,7 @@ namespace NativeWebSocket {
     public event WebSocketErrorEventHandler OnError;
     public event WebSocketCloseEventHandler OnClose;
 
-    public WebSocket (string url) {
+    public WebSocket (string url, Dictionary<string, string> headers = null) {
       if (!WebSocketFactory.isInitialized) {
         WebSocketFactory.Initialize ();
       }
@@ -440,8 +440,7 @@ namespace NativeWebSocket {
             }
           }
         }
-      } catch (Exception e) {
-        Console.WriteLine("Exception:", e.Source);
+      } catch (Exception) {
         m_TokenSource.Cancel ();
         OnClose?.Invoke (WebSocketCloseCode.Abnormal);
       }

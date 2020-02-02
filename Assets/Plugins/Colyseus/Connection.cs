@@ -36,6 +36,7 @@ namespace Colyseus
 				_enqueuedCalls.Enqueue(packedData);
 
 			} else {
+
 				await Send(packedData);
 			}
 		}
