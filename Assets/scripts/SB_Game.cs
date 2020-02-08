@@ -193,6 +193,21 @@ public class SB_Game
                 {
                     RoomManager.ShowMessage(ship.name + " is now level " + ship.level + ". " + (int)(ship.next_level - ship.previous_level) + " kills to next level.", 3);
                 }
+                if (obj.Field == "bullet_invulnerable" || obj.Field == "collision_invulnerable")
+                {
+                    if (ship.bullet_invulnerable == true && ship.collision_invulnerable == true)
+                    {
+                        ship_go.GetComponent<ShipGameObject>().ActivateForceField();
+                    } 
+                    else if (ship.collision_invulnerable == true)
+                    {
+                        ship_go.GetComponent<ShipGameObject>().ActivateRammingShield();
+                    }
+                    else
+                    {
+                        ship_go.GetComponent<ShipGameObject>().DeactivateShields();
+                    }
+                }
             }
             else
             {

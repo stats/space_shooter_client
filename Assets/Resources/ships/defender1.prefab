@@ -45,11 +45,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineFlame
       objectReference: {fileID: 0}
-    - target: {fileID: 4516386259649470650, guid: 6f095c34334e4d2418f9a007cabbfd63,
-        type: 3}
-      propertyPath: prewarm
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5608114235459112897, guid: 6f095c34334e4d2418f9a007cabbfd63,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,21 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5608114235459112897, guid: 6f095c34334e4d2418f9a007cabbfd63,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5608114235459112897, guid: 6f095c34334e4d2418f9a007cabbfd63,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5608114235459112897, guid: 6f095c34334e4d2418f9a007cabbfd63,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f095c34334e4d2418f9a007cabbfd63, type: 3}
