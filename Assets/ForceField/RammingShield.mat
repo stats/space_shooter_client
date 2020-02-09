@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ForceField_mat
+  m_Name: RammingShield
   m_Shader: {fileID: -6465566751694194690, guid: 4a1e8c73cea469742bb3c27740c4abb1,
     type: 3}
   m_ShaderKeywords: 
@@ -19,9 +19,15 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - Texture2D_1FFB8851:
+        m_Texture: {fileID: 2800000, guid: 0f35e2d0983a1e540bbf6b77383fdcf7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_1BAEE9EA: 0.6
-    - Vector1_BB5BB852: 5
+    - Vector1_3C3D80A0: 1
+    - Vector1_64A221E4: 0.5
+    - Vector1_8D23E4E9: 0.1
     m_Colors:
-    - Color_EBAB7B04: {r: 0, g: 6.062866, b: 5.943986, a: 0}
+    - Color_BEF77E4C: {r: 1, g: 0, b: 0.82725763, a: 0}
+    - Vector2_87F545A6: {r: 0.4, g: 4, b: 0, a: 0}

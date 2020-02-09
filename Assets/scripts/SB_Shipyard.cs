@@ -47,7 +47,7 @@ public class SB_Shipyard
 
         if (action == "ships")
         {
-            PlayerData.myShips = objectToShip((List<object>)message["ships"]);
+            PlayerData.myShips = SB_ShipHelper.ObjectToShips((List<object>)message["ships"]);
             RoomManager.HandleShipListUpdated();
         }
 
@@ -135,43 +135,4 @@ public class SB_Shipyard
         await shipBuilderRoom.Send(options);
     }
 
-    private List<Ship> objectToShip(List<object> ships_as_objects)
-    {
-        List<Ship> ship_list = new List<Ship>();
-        foreach (IDictionary<string, object> ship in ships_as_objects)
-        {
-            ship_list.Add(shipFromObject(ship));
-        }
-        return ship_list;
-    }
-
-    private Ship shipFromObject(IDictionary<string, object> ship)
-    {
-        Ship tmpShip = new Ship();
-        System.Type shipType = typeof(Ship);
-        foreach (var item in ship)
-        {
-            var field = shipType.GetField(item.Key);
-            if (field != null && item.Value != null)
-            {
-                if (item.Value.GetType() == typeof(System.Double))
-                {
-                    field.SetValue(tmpShip, System.Convert.ToSingle(item.Value));
-                }
-                else if (item.Key == "position")
-                {
-                    Position position = new Position();
-                    position.x = 0;
-                    position.y = 0;
-                    field.SetValue(tmpShip, position);
-                }
-                else
-                {
-                    field.SetValue(tmpShip, item.Value);
-                }
-
-            }
-        }
-        return tmpShip;
-    }
 }

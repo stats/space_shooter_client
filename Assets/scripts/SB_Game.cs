@@ -35,8 +35,18 @@ public class SB_Game
 
     public async void HandleEnterGame(MatchMakeResponse response)
     {
-        Dictionary<string, string> headers = new Dictionary<string, string>();
-        gameRoom = await RoomManager.ConsumeSeatReservation<GameState>(response, headers);
+
+        if(response == null)
+        {
+            Dictionary<string, object> options = new Dictionary<string, object>()
+            { {"token", PlayerPrefs.GetString("token")} };
+            gameRoom = await RoomManager.JoinOrCreate<GameState>("GameRoom", options);
+        }
+        else
+        {
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            gameRoom = await RoomManager.ConsumeSeatReservation<GameState>(response, headers);
+        }
 
         gameRoom.OnLeave += (code) =>
         {

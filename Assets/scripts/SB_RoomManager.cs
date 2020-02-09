@@ -19,6 +19,9 @@ public class SB_RoomManager : MonoBehaviour
     public ZHG_UI_System m_UI;
     public GameObject m_Game_GRP;
 
+    [Header("Match Maker Properties")]
+    public GameObject m_MatchMakerShipContainer;
+
     [Header("Room Events")]
     public UnityEvent onAuthenticated = new UnityEvent();
     public UnityEvent onNotAuthenticated = new UnityEvent();
@@ -119,6 +122,13 @@ public class SB_RoomManager : MonoBehaviour
     public void HandleEnterMatchMaking(Dictionary<string, object> options)
     {
         matchmaker.EnterMatchMaker(options);
+    }
+
+    public void HandleSkipMatchMaking()
+    {
+        matchmaker.Leave();
+        game.HandleEnterGame(null);
+        HandleOnMatchFound();
     }
 
     public void HandleEnterGame(MatchMakeResponse response)
@@ -429,6 +439,24 @@ public class SB_RoomManager : MonoBehaviour
                     onLoginSuccess.Invoke();
                 }
             }
+        }
+    }
+
+    public void AddMatchMakerShips(List<Ship> ships)
+    {
+        foreach (Ship ship in ships)
+        {
+            GameObject matchShip = Instantiate(Resources.Load<GameObject>("MatchShip"), new Vector3(0, 0, 0), Quaternion.identity);
+            matchShip.GetComponent<SB_MatchShip>().SetShip(ship);
+            matchShip.transform.SetParent(m_MatchMakerShipContainer.transform);
+        }
+    }
+
+    public void ClearMatchMakerShips()
+    {
+        foreach (Transform child in m_MatchMakerShipContainer.transform)
+        {
+            GameObject.Destroy(child.gameObject);
         }
     }
 

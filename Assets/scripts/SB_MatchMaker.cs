@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 public class SB_MatchMaker
 {
 
+    [Header("Properties")]
+    public GameObject m_PlayerContainer;
+
     private SB_RoomManager RoomManager;
     private Room<IndexedDictionary<string,object>> matchRoom;
 
@@ -30,22 +33,37 @@ public class SB_MatchMaker
         RoomManager.HandleOnEnterMatchMaking();
     }
 
+    public async void Leave()
+    {
+        await matchRoom.Leave();
+    }
+
     private async void OnMatchMessage(object msg)
     {
         if (msg.GetType() == typeof(System.Byte))
         {
-
+            Debug.Log(msg);
         }
         else if (msg.GetType() == typeof(IndexedDictionary<string, object>))
         {
-            MatchMakeResponse response = GetResponseObject(msg);
+            IndexedDictionary<string, object> message = (IndexedDictionary<string, object>)msg;
+            if (message.ContainsKey("ships"))
+            {
+                List<Ship> ships = SB_ShipHelper.ObjectToShips((List<object>)message["ships"]);
+                RoomManager.ClearMatchMakerShips();
+                RoomManager.AddMatchMakerShips(ships);
+            }
+            else
+            {
+                MatchMakeResponse response = GetResponseObject(msg);
 
-            RoomManager.HandleEnterGame(response);
+                RoomManager.HandleEnterGame(response);
 
-            await this.matchRoom.Send(1);
+                await this.matchRoom.Send(1);
 
-            RoomManager.HandleOnMatchFound();
-        }
+                RoomManager.HandleOnMatchFound();
+            }  
+        } 
     }
 
     MatchMakeResponse GetResponseObject(object msg)
@@ -64,5 +82,7 @@ public class SB_MatchMaker
 
         return response;
     }
+
+
 
 }

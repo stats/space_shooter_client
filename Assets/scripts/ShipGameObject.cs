@@ -9,6 +9,9 @@ public class ShipGameObject : MonoBehaviour
 
     private GameObject ship_type;
 
+    private GameObject _ForceField;
+    private GameObject _RammingShield;
+
     public void UpdateComponents()
     {
         if(shipData == null)
@@ -19,22 +22,25 @@ public class ShipGameObject : MonoBehaviour
         ship_type = (GameObject)Instantiate(Resources.Load("ships/" + shipData.ship_type));
         ship_type.transform.Find("mesh").GetComponent<MeshRenderer>().material = Instantiate<Material>((Material)Resources.Load("ships/materials/" + shipData.ship_material, typeof(Material)));
         ship_type.transform.SetParent(transform, false);
+
+        _ForceField = ship_type.transform.Find("ForceField").gameObject;
+        _RammingShield = ship_type.transform.Find("RammingShield").gameObject;
     }
 
     public void ActivateForceField()
     {
-        ship_type.transform.Find("mesh").GetComponent<MeshRenderer>().material = Instantiate<Material>((Material)Resources.Load("ships/materials/ShieldSprite", typeof(Material)));
+        _ForceField.SetActive(true);
     }
 
     public void ActivateRammingShield()
     {
-        ship_type.transform.Find("mesh").GetComponent<MeshRenderer>().material = Instantiate<Material>((Material)Resources.Load("ships/materials/RammingShield", typeof(Material)));
+        _RammingShield.SetActive(true);
     }
 
     public void DeactivateShields()
     {
-        ship_type.transform.Find("mesh").GetComponent<MeshRenderer>().material = Instantiate<Material>((Material)Resources.Load("ships/materials/" + shipData.ship_material, typeof(Material)));
-
+        _ForceField.SetActive(false);
+        _RammingShield.SetActive(false);
     }
 
 }
