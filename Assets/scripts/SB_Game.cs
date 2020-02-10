@@ -331,7 +331,7 @@ public class SB_Game
             GameObject explosion_gameobject;
             if (bullet.blast_radius != 0)
             {
-                explosion_gameobject = SB_Explosion.GetExplosion(bullet.blast_radius, bullet_go.transform.position);
+                explosion_gameobject = SB_Explosion.GetExplosion(bullet.blast_radius/15, bullet_go.transform.position);
             }
             else
             {
