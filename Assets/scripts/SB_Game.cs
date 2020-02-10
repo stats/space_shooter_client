@@ -218,6 +218,10 @@ public class SB_Game
                         ship_go.GetComponent<ShipGameObject>().DeactivateShields();
                     }
                 }
+                if(obj.Field == "invisible")
+                {
+                    ship_go.GetComponent<ShipGameObject>().SetInvisibility(ship.invisible);
+                }
             }
             else
             {

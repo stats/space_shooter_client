@@ -11,6 +11,7 @@ public class ShipGameObject : MonoBehaviour
 
     private GameObject _ForceField;
     private GameObject _RammingShield;
+    private Material _Material;
 
     public void UpdateComponents()
     {
@@ -20,7 +21,8 @@ public class ShipGameObject : MonoBehaviour
         }
         Destroy(ship_type);
         ship_type = (GameObject)Instantiate(Resources.Load("ships/" + shipData.ship_type));
-        ship_type.transform.Find("mesh").GetComponent<MeshRenderer>().material = Instantiate<Material>((Material)Resources.Load("ships/materials/" + shipData.ship_material, typeof(Material)));
+        _Material = Instantiate<Material>((Material)Resources.Load("ships/materials/" + shipData.ship_material, typeof(Material)));
+        ship_type.transform.Find("mesh").GetComponent<MeshRenderer>().material = _Material;
         ship_type.transform.SetParent(transform, false);
 
         _ForceField = ship_type.transform.Find("ForceField").gameObject;
@@ -41,6 +43,20 @@ public class ShipGameObject : MonoBehaviour
     {
         _ForceField.SetActive(false);
         _RammingShield.SetActive(false);
+    }
+
+    public void SetInvisibility(bool invisible)
+    {
+        if(invisible)
+        {
+            Debug.Log("Going Invisible");
+            _Material.SetColor("_BaseColor", new Color( 1.0f, 1.0f, 1.0f, 0.1f ));
+        }
+        else
+        {
+            Debug.Log("Going Visible");
+            _Material.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, 1.0f ));
+        }
     }
 
 }
