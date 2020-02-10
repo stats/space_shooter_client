@@ -328,7 +328,15 @@ public class SB_Game
         if (bullets.TryGetValue(bullet, out bullet_go))
         {
             Object.Destroy(bullet_go);
-            GameObject explosion_gameobject = Object.Instantiate(Resources.Load<GameObject>("explosions/BulletExplosion_1"), bullet_go.transform.position, Quaternion.identity) as GameObject;
+            GameObject explosion_gameobject;
+            if (bullet.blast_radius != 0)
+            {
+                explosion_gameobject = SB_Explosion.GetExplosion(bullet.blast_radius, bullet_go.transform.position);
+            }
+            else
+            {
+                explosion_gameobject = SB_Explosion.GetExplosion(5, bullet_go.transform.position);
+            }
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
             bullets.Remove(bullet);
         }
