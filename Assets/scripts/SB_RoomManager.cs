@@ -12,12 +12,9 @@ using System.Threading.Tasks;
 
 public class SB_RoomManager : MonoBehaviour
 {
-    //const string WS_ENDPOINT = "ws://localhost:2567";
-    //const string HTTP_ENDPOINT = "http://localhost:2567";
-
+    
     [Header("Server Settings")]
-    public string WS_ENDPOINT;
-    public string HTTP_ENDPOINT;
+    public bool m_Production = false;
 
     [Header("Main Properties")]
     public ZHG_UI_System m_UI;
@@ -25,6 +22,9 @@ public class SB_RoomManager : MonoBehaviour
 
     [Header("Match Maker Properties")]
     public GameObject m_MatchMakerShipContainer;
+
+    [Header("Game Room Properties")]
+    public GameObject m_GameMenu;
 
     [Header("Room Events")]
     public UnityEvent onAuthenticated = new UnityEvent();
@@ -45,11 +45,20 @@ public class SB_RoomManager : MonoBehaviour
     private SB_MatchMaker matchmaker;
     private SB_Game game;
 
+    private string WS_ENDPOINT = "ws://localhost:2567";
+    private string HTTP_ENDPOINT = "http://localhost:2567";
+
     void Awake()
     {
         shipyard = new SB_Shipyard(this);
         matchmaker = new SB_MatchMaker(this);
         game = new SB_Game(this);
+
+        if (m_Production == true)
+        {
+            WS_ENDPOINT = "wss://cindertron7.com";
+            HTTP_ENDPOINT = "https://cindertron7.com";
+        }
     }
 
     async void Update()
@@ -78,6 +87,11 @@ public class SB_RoomManager : MonoBehaviour
     {
         if (shipyard == null) return;
         shipyard.CallPlayShip();
+    }
+
+    public void CallLeaveGame()
+    {
+        game.BattleLost();
     }
 
     public void CallDestroyShip()
@@ -120,7 +134,6 @@ public class SB_RoomManager : MonoBehaviour
     public void HandleMessage(string message)
     {
         ShowMessage(message, 3);
-        Debug.Log("Message: " + message);
     }
 
     public void HandleUpgradeSuccess()
@@ -151,12 +164,6 @@ public class SB_RoomManager : MonoBehaviour
         onShipBuilt.Invoke();
     }
 
-    public void HandleOnBattleLost()
-    {
-        if (onBattleLost == null) return;
-        onBattleLost.Invoke();
-    }
-
     public void HandleOnEnterMatchMaking()
     {
         if (onEnterMatchMaking == null) return;
@@ -169,7 +176,7 @@ public class SB_RoomManager : MonoBehaviour
         onMatchFound.Invoke();
     }
 
-    public void HandeOnBattleLost()
+    public void HandleOnBattleLost()
     {
         if (onBattleLost == null) return;
         onBattleLost.Invoke();
@@ -215,6 +222,10 @@ public class SB_RoomManager : MonoBehaviour
         m_UI.m_HUD.RemovePlayerHUD(uuid);
     }
 
+    public void ToggleGameMenu()
+    {
+        m_GameMenu.SetActive(!m_GameMenu.activeSelf);
+    }
 
     private async Task<bool> HandleGameInput()
     {
@@ -227,6 +238,11 @@ public class SB_RoomManager : MonoBehaviour
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+
+        if (Input.GetButtonDown("Cancel"))
+        {
+            ToggleGameMenu();
+        }
 
         bool sendData = false;
         if (horizontal != 0)

@@ -25,6 +25,11 @@ public class SB_Game
         RoomManager = manager;
     }
 
+    public void LeaveGame()
+    {
+        BattleLost();
+    }
+
     public async Task<bool> HandleInput(Dictionary<string, object> options)
     {
         if (gameRoom == null) return false;
@@ -95,16 +100,16 @@ public class SB_Game
         }
     }
 
-    async void BattleLost()
+    public async void BattleLost()
     {
         RoomManager.ShowMessage("The Battle Has Been Lost!", 3);
+        await gameRoom.Leave();
         clearGameObjects();
         await Task.Delay(System.TimeSpan.FromSeconds(3));
         foreach (Transform child in RoomManager.m_Game_GRP.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-        await gameRoom.Leave();
         RoomManager.HandleOnBattleLost();
     }
 
@@ -223,10 +228,6 @@ public class SB_Game
                     ship_go.GetComponent<ShipGameObject>().SetInvisibility(ship.invisible);
                 }
             }
-            else
-            {
-                Debug.LogError("[SB_RoomManager] Could not get ship: " + key);
-            }
         });
         };
     }
@@ -314,10 +315,6 @@ public class SB_Game
                     bullet_go.transform.rotation = Quaternion.FromToRotation(Vector3.up, next_position - bullet_go.transform.position);
                     bullet_go.transform.position = next_position;
                 }
-            }
-            else
-            {
-                Debug.LogError("[SB_RoomManager] Could not get bullet: " + key);
             }
         });
         };

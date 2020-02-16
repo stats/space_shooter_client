@@ -26,10 +26,8 @@ public class SB_MatchMaker
 
     public async void EnterMatchMaker(Dictionary<string, object> options)
     {
-
         matchRoom = await RoomManager.JoinOrCreate<IndexedDictionary<string,object>>("MatchMakerRoom", options);
         matchRoom.OnMessage += OnMatchMessage;
-
         RoomManager.HandleOnEnterMatchMaking();
     }
 
@@ -42,7 +40,7 @@ public class SB_MatchMaker
     {
         if (msg.GetType() == typeof(System.Byte))
         {
-            Debug.Log(msg);
+            Debug.Log("Number of ships in matchmaker: " + msg);
         }
         else if (msg.GetType() == typeof(IndexedDictionary<string, object>))
         {
@@ -56,11 +54,8 @@ public class SB_MatchMaker
             else
             {
                 MatchMakeResponse response = GetResponseObject(msg);
-
                 RoomManager.HandleEnterGame(response);
-
                 await this.matchRoom.Send(1);
-
                 RoomManager.HandleOnMatchFound();
             }  
         } 

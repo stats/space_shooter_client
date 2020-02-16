@@ -76,7 +76,6 @@ public class SB_Shipyard
             { {"token", PlayerPrefs.GetString("token")},
                 {"rank", PlayerData.CurrentShip().rank }
             };
-
             RoomManager.HandleEnterMatchMaking(options);
         }
     }

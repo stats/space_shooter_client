@@ -91,6 +91,7 @@ namespace ZombieHeadGames.UI
             if(currentScreen)
             {
                 currentScreen.CloseScreen();
+                currentScreen = null;
                 previousScreen = currentScreen;
             }
 
