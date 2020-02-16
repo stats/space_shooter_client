@@ -15,7 +15,7 @@ public class SB_Shipbuilder_Screen : MonoBehaviour
     public TMP_InputField m_NameInput;
     public string m_ShipType = "explorer1";
     public string m_ShipMaterial = "cindertron_recruit1";
-    public string m_Primary = "Basic";
+    public string m_Primary = "Cannon";
     public string m_Special = "EmergencyBrake";
 
     private ShipGameObject shipGameObject;
