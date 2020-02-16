@@ -1,83 +1,8 @@
 fileFormatVersion: 2
-guid: 11878c07d5634a44bb9ab80b02cfa39b
+guid: 3068a430a01ece340bfea70017a2b716
 ModelImporter:
   serializedVersion: 19300
-  internalIDToNameTable:
-  - first:
-      74: -1600902214317595746
-    second: Explorer|CubeAction
-  - first:
-      74: 741701340387091848
-    second: Explorer|CubeAction.003
-  - first:
-      74: 4449021666072139303
-    second: Explorer|CubeAction.004
-  - first:
-      74: -1913083215136183394
-    second: Explorer|CubeAction.005
-  - first:
-      74: 4536219859118043124
-    second: Explorer|CubeAction.007
-  - first:
-      74: -548699325089941812
-    second: Explorer|Defender2.001Action
-  - first:
-      74: -8034660261986269559
-    second: Explorer|Defender2.001Action.002
-  - first:
-      74: 7494703913959955357
-    second: Explorer|Defender2.001Action.003
-  - first:
-      74: 5571958276260743740
-    second: Explorer|Defender2Action
-  - first:
-      74: 7579195392577010366
-    second: Explorer|DefenderAction
-  - first:
-      74: 3316692090780828709
-    second: Explorer|ExplorerAction
-  - first:
-      74: 4193337517832170235
-    second: Explorer|ExplorerAction.001
-  - first:
-      74: 6832469115516807406
-    second: Explorer|ExplorerAction.002
-  - first:
-      74: -8904340538184902243
-    second: Explorer|ExplorerAction.003
-  - first:
-      74: -1529121354337984772
-    second: Explorer|ExplorerAction.004
-  - first:
-      74: -4301257878980581267
-    second: Explorer|FighterAction
-  - first:
-      74: -5766035030575097477
-    second: Explorer|FighterAction.001
-  - first:
-      74: 6234425295948426255
-    second: Explorer|FighterAction.002
-  - first:
-      74: 6614823396914990706
-    second: Explorer|FighterAction.003
-  - first:
-      74: -2027416836966266907
-    second: Explorer|FighterAction.004
-  - first:
-      74: -1593518966943091468
-    second: Explorer|IcosphereAction
-  - first:
-      74: 3901390881845638010
-    second: Explorer|Scout.002Action
-  - first:
-      74: -5120186415444323253
-    second: Explorer|Scout.002Action.001
-  - first:
-      74: 7686544550923240563
-    second: Explorer|Scout.002Action.002
-  - first:
-      74: -8139660102608275372
-    second: Explorer|Scout.002Action.003
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -136,7 +61,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
@@ -162,7 +87,7 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   avatarSetup: 0
   additionalBone: 0

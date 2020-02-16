@@ -265,7 +265,8 @@ public class SB_Game
                     Position pos = (Position)obj.Value;
                     next_position.x = pos.x;
                     next_position.y = pos.y;
-                    enemy_go.transform.rotation = Quaternion.FromToRotation(Vector3.up, next_position - enemy_go.transform.position);
+                    Quaternion from = enemy_go.transform.rotation;
+                    enemy_go.transform.rotation = Quaternion.Lerp(from, Quaternion.FromToRotation(Vector3.up, next_position - enemy_go.transform.position), 0.1f);
                     enemy_go.transform.position = next_position;
                 }
             }

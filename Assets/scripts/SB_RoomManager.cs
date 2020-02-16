@@ -12,8 +12,12 @@ using System.Threading.Tasks;
 
 public class SB_RoomManager : MonoBehaviour
 {
-    const string WS_ENDPOINT = "ws://localhost:2567";
-    const string HTTP_ENDPOINT = "http://localhost:2567";
+    //const string WS_ENDPOINT = "ws://localhost:2567";
+    //const string HTTP_ENDPOINT = "http://localhost:2567";
+
+    [Header("Server Settings")]
+    public string WS_ENDPOINT;
+    public string HTTP_ENDPOINT;
 
     [Header("Main Properties")]
     public ZHG_UI_System m_UI;
@@ -51,6 +55,11 @@ public class SB_RoomManager : MonoBehaviour
     async void Update()
     {
         bool input_sent = await HandleGameInput();
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public void EnterShipYard()
