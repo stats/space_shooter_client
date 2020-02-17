@@ -87,10 +87,8 @@ public class SB_Shipbuilder_Screen : MonoBehaviour
 
         }
 
-
         string t, m;
 
-        
         t = char.ToUpper(shipData.ship_type[0]) + shipData.ship_type.Substring(1);
         t = t.Replace("1", " Mark I");
         t = t.Replace("2", " Mark II");

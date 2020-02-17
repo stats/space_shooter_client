@@ -7,11 +7,8 @@
 
 using Colyseus.Schema;
 
-public class Position : Schema {
-	[Type(0, "number")]
-	public float x = 0;
-
-	[Type(1, "number")]
-	public float y = 0;
+public class ShipBuilderState : Schema {
+	[Type(0, "ref", typeof(Statistics))]
+	public Statistics stats = new Statistics();
 }
 

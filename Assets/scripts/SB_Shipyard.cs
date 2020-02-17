@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 public class SB_Shipyard
 {
-    private Room<IndexedDictionary<string,object>> shipBuilderRoom;
+    private Room<ShipBuilderState> shipBuilderRoom;
 
     private SB_RoomManager RoomManager;
 
@@ -29,7 +29,7 @@ public class SB_Shipyard
       {{"token", PlayerPrefs.GetString("token")}};
             try
             {
-                shipBuilderRoom = await RoomManager.client.JoinOrCreate<IndexedDictionary<string,object>>("ShipBuilderRoom", options);
+                shipBuilderRoom = await RoomManager.client.JoinOrCreate<ShipBuilderState>("ShipBuilderRoom", options);
                 shipBuilderRoom.OnMessage += OnShipBuilderMessage;
             }
             catch
@@ -42,42 +42,58 @@ public class SB_Shipyard
 
     public async void OnShipBuilderMessage(object msg)
     {
-        IndexedDictionary<string, object> message = (IndexedDictionary<string, object>)msg;
-        string action = message["action"].ToString();
-
-        if (action == "ships")
+        if(msg is Statistics)
         {
-            PlayerData.myShips = SB_ShipHelper.ObjectToShips((List<object>)message["ships"]);
-            RoomManager.HandleShipListUpdated();
-        }
-
-        if (action == "error")
+            Statistics stats = msg as Statistics;
+            RoomManager.HandleStats(stats);
+            
+        } 
+        else
         {
-            RoomManager.HandleErrorMessage((string)message["message"]);
-        }
+            IndexedDictionary<string, object> message = (IndexedDictionary<string, object>)msg;
 
-        if (action == "message")
-        {
-            RoomManager.HandleMessage((string)message["message"]);
-        }
+            string action = message["action"].ToString();
 
-        if (action == "ship_upgrade_success")
-        {
-            PlayerData.ResetUpgrades();
-            RoomManager.HandleUpgradeSuccess();
-        }
+            if (action == "ships")
+            {
+                PlayerData.myShips = SB_ShipHelper.ObjectToShips((List<object>)message["ships"]);
+                RoomManager.HandleShipListUpdated();
+            }
 
-        if (action == "enter_match_making")
-        {
-            await shipBuilderRoom.Leave();
-            shipBuilderRoom = null;
+            if (action == "error")
+            {
+                RoomManager.HandleErrorMessage((string)message["message"]);
+            }
 
-            Dictionary<string, object> options = new Dictionary<string, object>()
+            if (action == "message")
+            {
+                RoomManager.HandleMessage((string)message["message"]);
+            }
+
+            if (action == "unlocked")
+            {
+                RoomManager.HandleUnlocked((Dictionary<string, object>)message["message"]);
+            }
+
+            if (action == "ship_upgrade_success")
+            {
+                PlayerData.ResetUpgrades();
+                RoomManager.HandleUpgradeSuccess();
+            }
+
+            if (action == "enter_match_making")
+            {
+                await shipBuilderRoom.Leave();
+                shipBuilderRoom = null;
+
+                Dictionary<string, object> options = new Dictionary<string, object>()
             { {"token", PlayerPrefs.GetString("token")},
                 {"rank", PlayerData.CurrentShip().rank }
             };
-            RoomManager.HandleEnterMatchMaking(options);
+                RoomManager.HandleEnterMatchMaking(options);
+            }
         }
+        
     }
 
     public async void CallBuildShip(SB_Shipbuilder_Screen screen)
@@ -90,6 +106,20 @@ public class SB_Shipyard
     };
         await shipBuilderRoom.Send(options);
         RoomManager.HandleOnShipBuilt();
+    }
+
+    async public void CallGetStats()
+    {
+        Dictionary<string, object> options = new Dictionary<string, object>()
+        { {"action", "stats" } };
+        await shipBuilderRoom.Send(options);
+    }
+
+    async public void CallGetUnlocked()
+    {
+        Dictionary<string, object> options = new Dictionary<string, object>()
+        { {"action", "unlocked" } };
+        await shipBuilderRoom.Send(options);
     }
 
     async public void CallDestroyShip()

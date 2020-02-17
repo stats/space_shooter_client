@@ -39,6 +39,9 @@ public class SB_RoomManager : MonoBehaviour
     public UnityEvent onBattleLost = new UnityEvent();
     public UnityEvent onServerDown = new UnityEvent();
 
+    [Header("Screens")]
+    public SB_Stats_Screen m_StatsScreen;
+
     public Client client;
 
     private SB_Shipyard shipyard;
@@ -102,6 +105,26 @@ public class SB_RoomManager : MonoBehaviour
     public void CallBuildShip(SB_Shipbuilder_Screen screen)
     {
         shipyard.CallBuildShip(screen);
+    }
+
+    public void CallGetStats()
+    {
+        shipyard.CallGetStats();
+    }
+
+    public void CallGetUnlocked()
+    {
+        shipyard.CallGetUnlocked();
+    }
+
+    public void HandleStats(Statistics stats)
+    {
+        m_StatsScreen.DisplayStats(stats);
+    }
+
+    public void HandleUnlocked(Dictionary<string, object> unlocked)
+    {
+
     }
 
     public async Task<Room<T>> JoinOrCreate<T>(string name, Dictionary<string, object> options)
