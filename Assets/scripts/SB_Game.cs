@@ -270,12 +270,14 @@ public class SB_Game
                     enemy_go.transform.rotation = Quaternion.Lerp(from, Quaternion.FromToRotation(Vector3.up, next_position - enemy_go.transform.position), 0.1f);
                     enemy_go.transform.position = next_position;
                 }
-                if(enemy.override_angle)
+                if (obj.Field == "angle")
                 {
-                    var angle = enemy_go.transform.rotation.eulerAngles;
-                    angle.x = Mathf.Cos(enemy.angle);
-                    angle.y = Mathf.Sin(enemy.angle);
-                    enemy_go.transform.rotation = Quaternion.Euler(angle);
+                    if (enemy.override_angle)
+                    {
+                        var angle = enemy_go.transform.rotation.eulerAngles;
+                        angle.z = (float)obj.Value * 180 / Mathf.PI;
+                        enemy_go.transform.rotation = Quaternion.Euler(angle);
+                    }
                 }
             }
             else

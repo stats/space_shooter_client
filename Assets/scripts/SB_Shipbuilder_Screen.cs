@@ -11,6 +11,12 @@ public class SB_Shipbuilder_Screen : MonoBehaviour
     public TMP_Text m_LoadoutText;
     public TMP_Text m_ShipNameText;
 
+    [Header("Screens")]
+    public GameObject m_ShipsScreen;
+    public GameObject m_PrimaryScreen;
+    public GameObject m_SpecialScreen;
+    public GameObject m_MaterialScreen;
+
     [Header("Ship Components")]
     public TMP_InputField m_NameInput;
     public string m_ShipType = "explorer1";
@@ -26,6 +32,11 @@ public class SB_Shipbuilder_Screen : MonoBehaviour
     void Start()
     {
 
+    }
+
+    public void OnEnable()
+    {
+        
     }
 
     public void HideShip()

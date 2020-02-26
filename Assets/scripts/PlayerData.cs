@@ -13,6 +13,8 @@ public class PlayerData
     public static int enemiesSpawned = 0;
     public static int enemiesKilled = 0;
 
+    public static UnlockMessage unlocks;
+
     public static int UpgradePointsSpent = 0;
     public static Dictionary<string, int> UpgradePoints = new Dictionary<string, int>()
     {
@@ -24,6 +26,11 @@ public class PlayerData
         {"shields_max", 0},
         {"shields_recharge", 0}
     };
+
+    public static void SetUnlocks(UnlockMessage u)
+    {
+        unlocks = u;
+    }
 
     public static float XPPercentage()
     {

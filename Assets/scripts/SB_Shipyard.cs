@@ -31,6 +31,10 @@ public class SB_Shipyard
             {
                 shipBuilderRoom = await RoomManager.client.JoinOrCreate<ShipBuilderState>("ShipBuilderRoom", options);
                 shipBuilderRoom.OnMessage += OnShipBuilderMessage;
+
+                Dictionary<string, object> data = new Dictionary<string, object>()
+                {{"action", "unlocked" } };
+                await shipBuilderRoom.Send(data);
             }
             catch
             {
@@ -48,6 +52,11 @@ public class SB_Shipyard
             RoomManager.HandleStats(stats);
             
         } 
+        else if (msg is UnlockMessage)
+        {
+            UnlockMessage unlocks = msg as UnlockMessage;
+            PlayerData.SetUnlocks(unlocks);
+        }
         else
         {
             IndexedDictionary<string, object> message = (IndexedDictionary<string, object>)msg;

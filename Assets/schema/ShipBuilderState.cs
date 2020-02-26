@@ -10,5 +10,8 @@ using Colyseus.Schema;
 public class ShipBuilderState : Schema {
 	[Type(0, "ref", typeof(Statistics))]
 	public Statistics stats = new Statistics();
+
+	[Type(1, "ref", typeof(UnlockMessage))]
+	public UnlockMessage unlockMessage = new UnlockMessage();
 }
 
