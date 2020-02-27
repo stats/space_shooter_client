@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Colyseus.Schema;
+
 public class PlayerData
 {
     public static string CurrentShipUUID;
-    public static List<Ship> myShips;
+    public static MapSchema<Ship> myShips;
 
     public static Ship shipData;
 
@@ -39,23 +41,13 @@ public class PlayerData
     }
     public static void UpdateShip(Ship ship)
     {
-        Ship tmp_ship = myShips.Find(s => s.uuid == ship.uuid);
-        myShips.Remove(tmp_ship);
-        myShips.Add(ship);
+        myShips[ship.uuid] = ship;
     }
 
     public static Ship CurrentShip()
     {
-        if (myShips == null) return null;
-
-        foreach(Ship ship in myShips)
-        {
-            if(ship.uuid == PlayerData.CurrentShipUUID)
-            {
-                return ship;
-            }
-        }
-        return null;
+        if (PlayerData.CurrentShipUUID == null) return null;
+        return myShips[PlayerData.CurrentShipUUID];
     }
 
     public static T GetCurrentShipAttribute<T>(string _name)

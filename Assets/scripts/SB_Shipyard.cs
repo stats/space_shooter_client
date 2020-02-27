@@ -57,31 +57,27 @@ public class SB_Shipyard
             UnlockMessage unlocks = msg as UnlockMessage;
             PlayerData.SetUnlocks(unlocks);
         }
+        else if (msg is ShipList)
+        {
+            ShipList sl = msg as ShipList;
+            Debug.Log("Ship Count: " + sl.ships.Count);
+            PlayerData.myShips = sl.ships;
+            RoomManager.HandleShipListUpdated();
+        }
+        else if (msg is ErrorMessage)
+        {
+            ErrorMessage er = msg as ErrorMessage;
+            RoomManager.HandleErrorMessage(er.message);
+        }
         else
         {
             IndexedDictionary<string, object> message = (IndexedDictionary<string, object>)msg;
 
             string action = message["action"].ToString();
 
-            if (action == "ships")
-            {
-                PlayerData.myShips = SB_ShipHelper.ObjectToShips((List<object>)message["ships"]);
-                RoomManager.HandleShipListUpdated();
-            }
-
-            if (action == "error")
-            {
-                RoomManager.HandleErrorMessage((string)message["message"]);
-            }
-
             if (action == "message")
             {
                 RoomManager.HandleMessage((string)message["message"]);
-            }
-
-            if (action == "unlocked")
-            {
-                RoomManager.HandleUnlocked((Dictionary<string, object>)message["message"]);
             }
 
             if (action == "ship_upgrade_success")

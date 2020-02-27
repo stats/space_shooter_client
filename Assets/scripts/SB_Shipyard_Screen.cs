@@ -63,22 +63,19 @@ public class SB_Shipyard_Screen : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        int i = 0;
-        foreach (Ship ship in PlayerData.myShips)
+        PlayerData.myShips.ForEach(delegate (string uuid, Ship ship)
         {
-            int index = i;
             GameObject child = Instantiate(Resources.Load<GameObject>("ShipSelectButton"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             TMP_Text text = child.transform.GetChild(0).GetComponent<TMP_Text>();
             text.SetText(ship.name + "\nRank: " + ship.rank);
-            child.GetComponent<Button>().onClick.AddListener(delegate { SelectShip(index); });
+            child.GetComponent<Button>().onClick.AddListener(delegate { SelectShip(ship.uuid); });
             child.transform.SetParent(m_ShipListContent.transform);
-            i++;
-        }
+        });
     }
 
-    public void SelectShip(int index)
+    public void SelectShip(string uuid)
     {
-        Ship ship = PlayerData.myShips[index];
+        Ship ship = PlayerData.myShips[uuid];
         if(shipDisplay == null)
         {
             shipDisplay = Instantiate(Resources.Load<GameObject>("ship"), new Vector3(-600, 0, 0), Quaternion.identity) as GameObject;
