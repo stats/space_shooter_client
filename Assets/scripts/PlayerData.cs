@@ -15,29 +15,28 @@ public class PlayerData
     public static int enemiesSpawned = 0;
     public static int enemiesKilled = 0;
 
-    public static UnlockMessage unlocks;
+    public static UnlockMessage unlockMessage;
 
     public static int UpgradePointsSpent = 0;
     public static Dictionary<string, int> UpgradePoints = new Dictionary<string, int>()
     {
         {"damage", 0},
         {"range", 0},
-        {"fire_rate", 0},
+        {"fireRate", 0},
         {"accelleration", 0},
         {"speed", 0},
-        {"shields_max", 0},
-        {"shields_recharge", 0}
+        {"shieldsMax", 0},
+        {"shieldsRecharge", 0}
     };
 
     public static void SetUnlocks(UnlockMessage u)
     {
-        unlocks = u;
+        unlockMessage = u;
     }
 
     public static float XPPercentage()
     {
-        //Debug.Log("XP" + shipData.kills + ", " + shipData.previous_level + ", " + shipData.next_level);
-        return (shipData.kills - shipData.previous_level) / (shipData.next_level - shipData.previous_level);
+        return (shipData.kills - shipData.previousLevel) / (shipData.nextLevel - shipData.previousLevel);
     }
     public static void UpdateShip(Ship ship)
     {
@@ -62,11 +61,11 @@ public class PlayerData
         {
             {"damage", 0},
             {"range", 0},
-            {"fire_rate", 0},
+            {"fireRate", 0},
             {"accelleration", 0},
             {"speed", 0},
-            {"shields_max", 0},
-            {"shields_recharge", 0}
+            {"shieldsMax", 0},
+            {"shieldsRecharge", 0}
         };
     }
 }

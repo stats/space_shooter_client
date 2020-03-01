@@ -24,7 +24,7 @@ public class SB_Upgrade_Screen : MonoBehaviour
             Ship currentShip = PlayerData.CurrentShip();
 
             m_ShipNameText.GetComponent<TMP_Text>().text = currentShip.name + " Rank: " + currentShip.rank;
-            m_UpgradePoints.GetComponent<TMP_Text>().text = "Upgrade Points: " + currentShip.upgrade_points + " Spent: " + PlayerData.UpgradePointsSpent;
+            m_UpgradePoints.GetComponent<TMP_Text>().text = "Upgrade Points: " + currentShip.upgradePoints + " Spent: " + PlayerData.UpgradePointsSpent;
 
             if (PlayerData.UpgradePointsSpent > 0)
             {

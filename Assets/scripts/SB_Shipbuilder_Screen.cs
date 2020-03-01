@@ -34,9 +34,25 @@ public class SB_Shipbuilder_Screen : MonoBehaviour
 
     }
 
-    public void OnEnable()
+    public void UpdateButtonStates()
     {
-        
+        Debug.Log("Update Button States");
+        foreach (Transform child in m_ShipsScreen.transform)
+        {
+            child.gameObject.GetComponent<SB_UnlockableButton>().UpdateState();
+        }
+        foreach (Transform child in m_PrimaryScreen.transform)
+        {
+            child.gameObject.GetComponent<SB_UnlockableButton>().UpdateState();
+        }
+        foreach (Transform child in m_SpecialScreen.transform)
+        {
+            child.gameObject.GetComponent<SB_UnlockableButton>().UpdateState();
+        }
+        foreach (Transform child in m_MaterialScreen.transform)
+        {
+            child.gameObject.GetComponent<SB_UnlockableButton>().UpdateState();
+        }
     }
 
     public void HideShip()
@@ -83,33 +99,33 @@ public class SB_Shipbuilder_Screen : MonoBehaviour
     {
         Ship shipData = new Ship();
         shipData.name = m_NameInput.text;
-        shipData.ship_type = m_ShipType;
-        shipData.ship_material = m_ShipMaterial;
-        shipData.primary_weapon = m_Primary;
-        shipData.special_weapon = m_Special;
+        shipData.shipType = m_ShipType;
+        shipData.shipMaterial = m_ShipMaterial;
+        shipData.primaryWeapon = m_Primary;
+        shipData.specialWeapon = m_Special;
 
-        if (shipData.ship_type == null)
+        if (shipData.shipType == null)
         {
-            shipData.ship_type = "explorer1";
+            shipData.shipType = "explorer1";
         }
-        if(shipData.ship_material == null)
+        if(shipData.shipMaterial == null)
         {
-            shipData.ship_material = "cindertron_recruit1";
+            shipData.shipMaterial = "cindertron_recruit1";
 
         }
 
         string t, m;
 
-        t = char.ToUpper(shipData.ship_type[0]) + shipData.ship_type.Substring(1);
+        t = char.ToUpper(shipData.shipType[0]) + shipData.shipType.Substring(1);
         t = t.Replace("1", " Mark I");
         t = t.Replace("2", " Mark II");
         t = t.Replace("3", " Mark III");
         t = t.Replace("4", " Mark IV");
         t = t.Replace("5", " Mark V");
-        m = shipData.ship_material.Replace("_", " ");
+        m = shipData.shipMaterial.Replace("_", " ");
         m = char.ToUpper(m[0]) + m.Substring(1);
 
-        m_LoadoutText.text = "Type: " + t + "\nPaint: " + m + "\nPrimary: " + shipData.primary_weapon + "\nSpecial: " + shipData.special_weapon;
+        m_LoadoutText.text = "Type: " + t + "\nPaint: " + m + "\nPrimary: " + shipData.primaryWeapon + "\nSpecial: " + shipData.specialWeapon;
         
 
         if (shipDisplay == null)

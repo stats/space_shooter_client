@@ -36,7 +36,7 @@ public class SB_UpgradeContainer : MonoBehaviour
                 m_Decrease.SetActive(false);
             }
 
-            if (PlayerData.CurrentShip() != null && PlayerData.CurrentShip().upgrade_points > 0)
+            if (PlayerData.CurrentShip() != null && PlayerData.CurrentShip().upgradePoints > 0)
             {
                 m_Increase.SetActive(true);
             }
@@ -53,7 +53,7 @@ public class SB_UpgradeContainer : MonoBehaviour
 
     public void IncreaseSkill()
     {
-        if(PlayerData.CurrentShip() != null && PlayerData.UpgradePointsSpent < PlayerData.CurrentShip().upgrade_points)
+        if(PlayerData.CurrentShip() != null && PlayerData.UpgradePointsSpent < PlayerData.CurrentShip().upgradePoints)
         {
             PlayerData.UpgradePointsSpent += 1;
             PlayerData.UpgradePoints[m_UpgradeKey] += 1;
@@ -73,7 +73,8 @@ public class SB_UpgradeContainer : MonoBehaviour
 
     public void UpdateBarSize()
     {
-        float stat = PlayerData.GetCurrentShipAttribute<int>("upgrade_" + m_UpgradeKey) + PlayerData.UpgradePoints[m_UpgradeKey];
+        string upgradeString = "upgrade" + char.ToUpper(m_UpgradeKey[0]) + m_UpgradeKey.Substring(1);
+        float stat = PlayerData.GetCurrentShipAttribute<int>(upgradeString) + PlayerData.UpgradePoints[m_UpgradeKey];
         if (stat > 0) Debug.Log("Stat: " + m_UpgradeKey + ", " + stat);
         m_SkillBar.GetComponent<MaskImage>().setValue(stat / 20.0f);
     }

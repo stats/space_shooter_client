@@ -36,31 +36,34 @@ public class SB_UnlockableButton : MonoBehaviour
         }
 
     }
-
-    void OnEnable()
+   
+    public void UpdateState()
     {
-        if (PlayerData.unlocks != null)
+        if (PlayerData.unlockMessage != null)
         {
-            Debug.Log("Key: " + m_Key + " Contains Key: " + PlayerData.unlocks.unlocks.ContainsKey(m_Key));
+            //Debug.Log("Key: " + m_Key + " Contains Key: " + PlayerData.unlockMessage.unlocks.ContainsKey(m_Key));
 
-            if (PlayerData.unlocks.unlocks.ContainsKey(m_Key) == false)
+            if (PlayerData.unlockMessage.unlocks.ContainsKey(m_Key) == false)
             {
-                _button.interactable = false;
+                transform.parent.gameObject.SetActive(false);
             }
             else
             {
-                _button.interactable = true;
+                transform.parent.gameObject.SetActive(true);
+                UnlockItem ui = PlayerData.unlockMessage.unlocks[m_Key];
+                if(ui.unlocked)
+                { 
+                    _button.interactable = true;
+                } 
+                else
+                {
+                    _button.interactable = false;
+                }
             }
         }
         else
         {
-            _button.interactable = false;
+            transform.parent.gameObject.SetActive(false);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

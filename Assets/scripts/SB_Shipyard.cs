@@ -54,13 +54,14 @@ public class SB_Shipyard
         } 
         else if (msg is UnlockMessage)
         {
+            Debug.Log("Unlock message received.");
             UnlockMessage unlocks = msg as UnlockMessage;
             PlayerData.SetUnlocks(unlocks);
         }
         else if (msg is ShipList)
         {
+            Debug.Log("ShipList message received.");
             ShipList sl = msg as ShipList;
-            Debug.Log("Ship Count: " + sl.ships.Count);
             PlayerData.myShips = sl.ships;
             RoomManager.HandleShipListUpdated();
         }

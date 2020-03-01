@@ -28,7 +28,6 @@ public class SB_Game_HUD : MonoBehaviour
     {
         if (!m_HUDContainer) return;
         m_Players.Add(uuid, hud);
-        /** TODO: Double check that this works **/
         hud.transform.SetParent(m_HUDContainer.transform);
     }
 

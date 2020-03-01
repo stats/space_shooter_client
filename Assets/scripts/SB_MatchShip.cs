@@ -17,6 +17,6 @@ public class SB_MatchShip : MonoBehaviour
     {
         _shipData = ship;
         m_Text.text = _shipData.name + "\nLevel " + _shipData.level;
-        m_Image.sprite = Resources.Load<Sprite>("ships_thumbnails/" + ship.ship_type);
+        m_Image.sprite = Resources.Load<Sprite>("ships_thumbnails/" + ship.shipType);
     }
 }

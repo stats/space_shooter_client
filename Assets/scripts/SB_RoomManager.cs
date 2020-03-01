@@ -406,7 +406,7 @@ public class SB_RoomManager : MonoBehaviour
     IEnumerator onQuickLogin()
     {
         WWWForm form = new WWWForm();
-        form.AddField("system_id", SystemInfo.deviceUniqueIdentifier);
+        form.AddField("systemId", SystemInfo.deviceUniqueIdentifier);
 
         using (var w = UnityWebRequest.Post(HTTP_ENDPOINT + "/quick_login", form))
         {

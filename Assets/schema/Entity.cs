@@ -2,7 +2,7 @@
 // THIS FILE HAS BEEN GENERATED AUTOMATICALLY
 // DO NOT CHANGE IT MANUALLY UNLESS YOU KNOW WHAT YOU'RE DOING
 // 
-// GENERATED USING @colyseus/schema 0.5.27
+// GENERATED USING @colyseus/schema 0.5.33
 // 
 
 using Colyseus.Schema;
@@ -15,16 +15,16 @@ public class Entity : Schema {
 	public Position position = new Position();
 
 	[Type(2, "boolean")]
-	public bool override_angle = false;
+	public bool overrideAngle = false;
 
 	[Type(3, "number")]
 	public float angle = 0;
 
 	[Type(4, "boolean")]
-	public bool bullet_invulnerable = false;
+	public bool bulletInvulnerable = false;
 
 	[Type(5, "boolean")]
-	public bool collision_invulnerable = false;
+	public bool collisionInvulnerable = false;
 
 	[Type(6, "boolean")]
 	public bool invisible = false;

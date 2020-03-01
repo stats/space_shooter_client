@@ -68,9 +68,9 @@ public class SB_Game
         {
             changes.ForEach((obj) =>
         {
-            if (obj.Field == "current_wave" || obj.Field == "enemies_spawned" || obj.Field == "enemies_killed")
+            if (obj.Field == "currentWave" || obj.Field == "enemiesSpawned" || obj.Field == "enemiesKilled")
             {
-                RoomManager.SetWaveText("Wave: " + gameRoom.State.current_wave + " Enemies Killed: " + gameRoom.State.enemies_killed + "/" + gameRoom.State.enemies_spawned);
+                RoomManager.SetWaveText("Wave: " + gameRoom.State.currentWave + " Enemies Killed: " + gameRoom.State.enemiesKilled + "/" + gameRoom.State.enemiesSpawned);
             }
         });
         };
@@ -160,11 +160,11 @@ public class SB_Game
         GameObject hudGameObject = Object.Instantiate(Resources.Load<GameObject>("PlayerHUD"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         SB_PlayerHUD hud = hudGameObject.GetComponent<SB_PlayerHUD>();
         hud.SetShipName(ship.name);
-        hud.SetPrimary((float)ship.primary_cooldown / (float)ship.primary_cooldown_max);
-        hud.SetSpecial((float)ship.special_cooldown / (float)ship.special_cooldown_max);
-        hud.SetShields(ship.shields, ship.max_shields);
-        hud.SetShieldRecharge((float)ship.shields_recharge_cooldown / (float)ship.shields_recharge_time);
-        hud.SetExperience((int)(ship.kills - ship.previous_level), (int)(ship.next_level - ship.previous_level));
+        hud.SetPrimary((float)ship.primaryCooldown / (float)ship.primaryCooldownMax);
+        hud.SetSpecial((float)ship.specialCooldown / (float)ship.specialCooldownMax);
+        hud.SetShields(ship.shields, ship.maxShields);
+        hud.SetShieldRecharge((float)ship.shieldsRechargeCooldown / (float)ship.shieldsRechargeTime);
+        hud.SetExperience((int)(ship.kills - ship.previousLevel), (int)(ship.nextLevel - ship.previousLevel));
 
         RoomManager.AddPlayerHUD(ship.uuid, hud);
 
@@ -183,38 +183,38 @@ public class SB_Game
                     next_position.y = pos.y;
                     ship_go.transform.position = next_position;
                 }
-                if (obj.Field == "primary_cooldown")
+                if (obj.Field == "primaryCooldown")
                 {
-                    RoomManager.UpdatePlayerHUDPrimary(ship.uuid, (float)ship.primary_cooldown / (float)ship.primary_cooldown_max);
+                    RoomManager.UpdatePlayerHUDPrimary(ship.uuid, (float)ship.primaryCooldown / (float)ship.primaryCooldownMax);
                 }
-                if (obj.Field == "special_cooldown")
+                if (obj.Field == "specialCooldown")
                 {
-                    RoomManager.UpdatePlayerHUDSpecial(ship.uuid, (float)ship.special_cooldown / (float)ship.special_cooldown_max);
+                    RoomManager.UpdatePlayerHUDSpecial(ship.uuid, (float)ship.specialCooldown / (float)ship.specialCooldownMax);
                 }
-                if (obj.Field == "shields" || obj.Field == "shields_max")
+                if (obj.Field == "shields" || obj.Field == "shieldsMax")
                 {
-                    RoomManager.UpdatePlayerHUDShields(ship.uuid, ship.shields, ship.max_shields);
+                    RoomManager.UpdatePlayerHUDShields(ship.uuid, ship.shields, ship.maxShields);
                 }
-                if (obj.Field == "shields_recharge_time" || obj.Field == "shields_recharge_cooldown")
+                if (obj.Field == "shieldsRechargeTime" || obj.Field == "shieldsRechargeCooldown")
                 {
 
-                    hud.SetShieldRecharge((float)ship.shields_recharge_cooldown / (float)ship.shields_recharge_time);
+                    hud.SetShieldRecharge((float)ship.shieldsRechargeCooldown / (float)ship.shieldsRechargeTime);
                 }
                 if (obj.Field == "kills")
                 {
-                    RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previous_level), (int)(ship.next_level - ship.previous_level));
+                    RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previousLevel), (int)(ship.nextLevel - ship.previousLevel));
                 }
                 if (obj.Field == "level")
                 {
-                    RoomManager.ShowMessage(ship.name + " is now level " + ship.level + ". " + (int)(ship.next_level - ship.previous_level) + " kills to next level.", 3);
+                    RoomManager.ShowMessage(ship.name + " is now level " + ship.level + ". " + (int)(ship.nextLevel - ship.previousLevel) + " kills to next level.", 3);
                 }
-                if (obj.Field == "bullet_invulnerable" || obj.Field == "collision_invulnerable")
+                if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
                 {
-                    if (ship.bullet_invulnerable == true && ship.collision_invulnerable == true)
+                    if (ship.bulletInvulnerable == true && ship.collisionInvulnerable == true)
                     {
                         ship_go.GetComponent<ShipGameObject>().ActivateForceField();
                     } 
-                    else if (ship.collision_invulnerable == true)
+                    else if (ship.collisionInvulnerable == true)
                     {
                         ship_go.GetComponent<ShipGameObject>().ActivateRammingShield();
                     }
@@ -247,8 +247,11 @@ public class SB_Game
 
     void OnEnemyAdd(Enemy enemy, string key)
     {
-        GameObject enemy_gameobject = Object.Instantiate(Resources.Load<GameObject>("enemies/" + enemy.model_type), new Vector3(enemy.position.x, enemy.position.y, 0), Quaternion.identity) as GameObject;
-        enemy_gameobject.name = "Enemy" + enemy.model_type;
+        var angle = Quaternion.identity.eulerAngles;
+        angle.z = (float)enemy.angle * 180 / Mathf.PI;
+        Debug.Log("Angle1: " + enemy.angle);
+        GameObject enemy_gameobject = Object.Instantiate(Resources.Load<GameObject>("enemies/" + enemy.modelType), new Vector3(enemy.position.x, enemy.position.y, 0), Quaternion.Euler(angle)) as GameObject;
+        enemy_gameobject.name = "Enemy" + enemy.modelType;
         enemy_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
         enemies.Add(enemy, enemy_gameobject);
 
@@ -266,18 +269,14 @@ public class SB_Game
                     Position pos = (Position)obj.Value;
                     next_position.x = pos.x;
                     next_position.y = pos.y;
-                    Quaternion from = enemy_go.transform.rotation;
-                    enemy_go.transform.rotation = Quaternion.Lerp(from, Quaternion.FromToRotation(Vector3.up, next_position - enemy_go.transform.position), 0.1f);
                     enemy_go.transform.position = next_position;
                 }
                 if (obj.Field == "angle")
                 {
-                    if (enemy.override_angle)
-                    {
-                        var angle = enemy_go.transform.rotation.eulerAngles;
-                        angle.z = (float)obj.Value * 180 / Mathf.PI;
-                        enemy_go.transform.rotation = Quaternion.Euler(angle);
-                    }
+                    Debug.Log("Angle updated");
+                    angle = enemy_go.transform.rotation.eulerAngles;
+                    angle.z = (float)obj.Value * 180 / Mathf.PI;
+                    enemy_go.transform.rotation = Quaternion.Euler(angle);
                 }
             }
             else
@@ -302,9 +301,9 @@ public class SB_Game
 
     void OnBulletAdd(Bullet bullet, string key)
     {
-        GameObject bullet_gameobject = Object.Instantiate(Resources.Load<GameObject>("bullets/" + bullet.bullet_mesh), new Vector3(bullet.position.x, bullet.position.y, 0), Quaternion.identity) as GameObject;
+        GameObject bullet_gameobject = Object.Instantiate(Resources.Load<GameObject>("bullets/" + bullet.bulletMesh), new Vector3(bullet.position.x, bullet.position.y, 0), Quaternion.identity) as GameObject;
         //TODO: Set the material for the bullet
-        bullet_gameobject.name = "Bullet" + bullet.bullet_mesh;
+        bullet_gameobject.name = "Bullet" + bullet.bulletMesh;
         bullet_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
         bullets.Add(bullet, bullet_gameobject);
 
@@ -336,9 +335,9 @@ public class SB_Game
         {
             Object.Destroy(bullet_go);
             GameObject explosion_gameobject;
-            if (bullet.blast_radius != 0)
+            if (bullet.blastRadius != 0)
             {
-                explosion_gameobject = SB_Explosion.GetExplosion(bullet.blast_radius/15, bullet_go.transform.position);
+                explosion_gameobject = SB_Explosion.GetExplosion(bullet.blastRadius/15, bullet_go.transform.position);
             }
             else
             {
