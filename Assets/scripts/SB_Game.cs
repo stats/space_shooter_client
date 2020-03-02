@@ -249,7 +249,6 @@ public class SB_Game
     {
         var angle = Quaternion.identity.eulerAngles;
         angle.z = (float)enemy.angle * 180 / Mathf.PI;
-        Debug.Log("Angle1: " + enemy.angle);
         GameObject enemy_gameobject = Object.Instantiate(Resources.Load<GameObject>("enemies/" + enemy.modelType), new Vector3(enemy.position.x, enemy.position.y, 0), Quaternion.Euler(angle)) as GameObject;
         enemy_gameobject.name = "Enemy" + enemy.modelType;
         enemy_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
