@@ -21,12 +21,15 @@ public class GameState : Schema {
 	public float startGame = 0;
 
 	[Type(4, "int32")]
-	public int currentWave = 0;
+	public int startWave = 0;
 
 	[Type(5, "int32")]
-	public int enemiesSpawned = 0;
+	public int currentWave = 0;
 
 	[Type(6, "int32")]
+	public int enemiesSpawned = 0;
+
+	[Type(7, "int32")]
 	public int enemiesKilled = 0;
 }
 
