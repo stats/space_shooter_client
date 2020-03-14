@@ -7,7 +7,7 @@
 
 using Colyseus.Schema;
 
-public class Enemy : Entity {
+public class Drop : Entity {
 	[Type(6, "string")]
 	public string modelType = "";
 }

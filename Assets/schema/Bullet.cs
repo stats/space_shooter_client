@@ -8,10 +8,10 @@
 using Colyseus.Schema;
 
 public class Bullet : Entity {
-	[Type(7, "number")]
+	[Type(6, "number")]
 	public float blastRadius = 0;
 
-	[Type(8, "string")]
+	[Type(7, "string")]
 	public string bulletMesh = "";
 }
 

@@ -11,7 +11,6 @@ public class SB_SlowRotation : MonoBehaviour
     void Start()
     {
         _axis = Random.Range(0, 3);
-        Debug.Log("Axis: " + _axis);
     }
 
     // Update is called once per frame

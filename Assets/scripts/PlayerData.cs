@@ -20,13 +20,13 @@ public class PlayerData
     public static int UpgradePointsSpent = 0;
     public static Dictionary<string, int> UpgradePoints = new Dictionary<string, int>()
     {
-        {"damage", 0},
-        {"range", 0},
-        {"fireRate", 0},
-        {"accelleration", 0},
-        {"speed", 0},
-        {"shieldsMax", 0},
-        {"shieldsRecharge", 0}
+        {"Damage", 0},
+        {"Range", 0},
+        {"FireRate", 0},
+        {"Accelleration", 0},
+        {"Speed", 0},
+        {"ShieldsMax", 0},
+        {"ShieldsRecharge", 0}
     };
 
     public static void SetUnlocks(UnlockMessage u)
@@ -59,13 +59,13 @@ public class PlayerData
         PlayerData.UpgradePointsSpent = 0;
         PlayerData.UpgradePoints = new Dictionary<string, int>()
         {
-            {"damage", 0},
-            {"range", 0},
-            {"fireRate", 0},
-            {"accelleration", 0},
-            {"speed", 0},
-            {"shieldsMax", 0},
-            {"shieldsRecharge", 0}
+            {"Damage", 0},
+            {"Range", 0},
+            {"FireRate", 0},
+            {"Accelleration", 0},
+            {"Speed", 0},
+            {"ShieldsMax", 0},
+            {"ShieldsRecharge", 0}
         };
     }
 }

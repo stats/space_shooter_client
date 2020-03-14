@@ -19,5 +19,11 @@ public class UnlockItem : Schema {
 
 	[Type(3, "string")]
 	public string unlockType = "";
+
+	[Type(4, "string")]
+	public string name = "";
+
+	[Type(5, "string")]
+	public string description = "";
 }
 

@@ -26,7 +26,7 @@ public class SB_Game_HUD : MonoBehaviour
 
     public void AddPlayerHUD(string uuid, SB_PlayerHUD hud)
     {
-        if (!m_HUDContainer) return;
+        if (!m_HUDContainer || m_Players.ContainsKey(uuid)) return;
         m_Players.Add(uuid, hud);
         hud.transform.SetParent(m_HUDContainer.transform);
     }

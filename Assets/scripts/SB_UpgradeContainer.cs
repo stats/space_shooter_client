@@ -73,7 +73,7 @@ public class SB_UpgradeContainer : MonoBehaviour
 
     public void UpdateBarSize()
     {
-        string upgradeString = "upgrade" + char.ToUpper(m_UpgradeKey[0]) + m_UpgradeKey.Substring(1);
+        string upgradeString = "upgrade" + m_UpgradeKey;
         float stat = PlayerData.GetCurrentShipAttribute<int>(upgradeString) + PlayerData.UpgradePoints[m_UpgradeKey];
         if (stat > 0) Debug.Log("Stat: " + m_UpgradeKey + ", " + stat);
         m_SkillBar.GetComponent<MaskImage>().setValue(stat / 20.0f);

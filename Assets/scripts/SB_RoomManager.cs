@@ -127,6 +127,11 @@ public class SB_RoomManager : MonoBehaviour
 
     }
 
+    public async Task<Room<T>> ReconnectToGame<T>(string roomId, string sessionId)
+    {
+        return await client.Reconnect<T>(roomId, sessionId);
+    }
+
     public async Task<Room<T>> JoinOrCreate<T>(string name, Dictionary<string, object> options)
     {
         return await client.JoinOrCreate<T>(name, options);

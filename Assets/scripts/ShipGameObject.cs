@@ -49,12 +49,10 @@ public class ShipGameObject : MonoBehaviour
     {
         if(invisible)
         {
-            Debug.Log("Going Invisible");
             _Material.SetColor("_BaseColor", new Color( 1.0f, 1.0f, 1.0f, 0.1f ));
         }
         else
         {
-            Debug.Log("Going Visible");
             _Material.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, 1.0f ));
         }
     }

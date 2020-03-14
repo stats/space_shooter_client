@@ -16,9 +16,10 @@ public class SB_Game
 
     private Room<GameState> gameRoom;
 
-    private IndexedDictionary<Ship, GameObject> ships = new IndexedDictionary<Ship, GameObject>();
-    private IndexedDictionary<Enemy, GameObject> enemies = new IndexedDictionary<Enemy, GameObject>();
-    private IndexedDictionary<Bullet, GameObject> bullets = new IndexedDictionary<Bullet, GameObject>();
+    private IndexedDictionary<string, GameObject> ships = new IndexedDictionary<string, GameObject>();
+    private IndexedDictionary<string, GameObject> enemies = new IndexedDictionary<string, GameObject>();
+    private IndexedDictionary<string, GameObject> bullets = new IndexedDictionary<string, GameObject>();
+    private IndexedDictionary<string, GameObject> drops = new IndexedDictionary<string, GameObject>();
 
     public SB_Game(SB_RoomManager manager)
     {
@@ -41,23 +42,42 @@ public class SB_Game
     public async void HandleEnterGame(MatchMakeResponse response)
     {
 
-        if(response == null)
+        if (response == null)
         {
             Dictionary<string, object> options = new Dictionary<string, object>()
-            { {"token", PlayerPrefs.GetString("token")} };
+            {
+                {"token", PlayerPrefs.GetString("token")},
+                {"waveRank", PlayerData.CurrentShip().rank - 5 }
+            };
             gameRoom = await RoomManager.JoinOrCreate<GameState>("GameRoom", options);
+            SetupGameRoomListeners();
         }
         else
         {
             Dictionary<string, string> headers = new Dictionary<string, string>();
             gameRoom = await RoomManager.ConsumeSeatReservation<GameState>(response, headers);
+            SetupGameRoomListeners();
         }
 
-        gameRoom.OnLeave += (code) =>
+        gameRoom.OnLeave += async (code) =>
         {
-            Debug.Log("[GameRoom] Client left: " + code);
+            Debug.Log("[GameRoom] On Leave: " + code + " : Attempting Reconnect");
+            try
+            {
+                gameRoom = await RoomManager.ReconnectToGame<GameState>(gameRoom.Id, gameRoom.SessionId);
+                SetupGameRoomListeners();
+                Debug.Log("[GameRoom] Reconnection Success: " + gameRoom.SessionId);
+            }
+            catch
+            {
+                Debug.Log("[GameRoom] On Leave: Could not reconnnect");
+            }
         };
 
+    }
+
+    private void SetupGameRoomListeners()
+    { 
         gameRoom.OnError += (message) =>
         {
             Debug.Log("[GameRoom] Error: " + message);
@@ -82,6 +102,9 @@ public class SB_Game
 
         gameRoom.State.bullets.OnAdd += OnBulletAdd;
         gameRoom.State.bullets.OnRemove += OnBulletRemove;
+
+        gameRoom.State.drops.OnAdd += OnDropAdd;
+        gameRoom.State.drops.OnRemove += OnDropRemove;
     }
 
     void OnGameMessage(object msg)
@@ -115,33 +138,36 @@ public class SB_Game
 
     private void clearGameObjects()
     {
-        List<Ship> shipDelete = new List<Ship>();
-        foreach (KeyValuePair<Ship, GameObject> kvp in ships)
+        List<string> shipDelete = new List<string>();
+        foreach (KeyValuePair<string, GameObject> kvp in ships)
         {
             shipDelete.Add(kvp.Key);
         }
-        foreach (Ship key in shipDelete)
+        foreach (string key in shipDelete)
         {
-            OnShipRemove(key, key.uuid);
+            RemoveShip(key);
         }
 
-        List<Enemy> enemyDelete = new List<Enemy>();
-        foreach (KeyValuePair<Enemy, GameObject> kvp in enemies)
+        List<string> enemyDelete = new List<string>();
+        foreach (KeyValuePair<string, GameObject> kvp in enemies)
         {
             enemyDelete.Add(kvp.Key);
         }
-        foreach (Enemy key in enemyDelete)
+        foreach (string key in enemyDelete)
         {
-            OnEnemyRemove(key, key.uuid);
+            RemoveEnemy(key);
         }
 
         ships.Clear();
         enemies.Clear();
         bullets.Clear();
+        drops.Clear();
     }
 
     void OnShipAdd(Ship ship, string key)
     {
+        if (ships.ContainsKey(ship.uuid)) return;
+
         GameObject ship_gameobject = Object.Instantiate(Resources.Load<GameObject>("Ship"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         ShipGameObject sgo = ship_gameobject.GetComponent<ShipGameObject>();
         sgo.shipData = ship;
@@ -154,7 +180,7 @@ public class SB_Game
         ship_gameobject.transform.position = new Vector3(ship.position.x, ship.position.y, 0);
         ship_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
 
-        ships.Add(ship, ship_gameobject);
+        ships.Add(ship.uuid, ship_gameobject);
 
         /** UI HUD Stuff **/
         GameObject hudGameObject = Object.Instantiate(Resources.Load<GameObject>("PlayerHUD"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
@@ -173,7 +199,7 @@ public class SB_Game
             changes.ForEach((obj) =>
         {
             GameObject ship_go;
-            if (ships.TryGetValue(ship, out ship_go))
+            if (ships.TryGetValue(ship.uuid, out ship_go))
             {
                 if (obj.Field == "position")
                 {
@@ -234,32 +260,39 @@ public class SB_Game
 
     void OnShipRemove(Ship ship, string key)
     {
+        RemoveShip(ship.uuid);
+    }
+
+    void RemoveShip(string uuid)
+    {
         GameObject ship_go;
-        if (ships.TryGetValue(ship, out ship_go))
+        if (ships.TryGetValue(uuid, out ship_go))
         {
             GameObject explosion_gameobject = Object.Instantiate(Resources.Load<GameObject>("explosions/ElectricExplosion"), ship_go.transform.position, Quaternion.identity) as GameObject;
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
             Object.Destroy(ship_go);
-            ships.Remove(ship);
-            RoomManager.RemovePlayerHUD(ship.uuid);
+            ships.Remove(uuid);
+            RoomManager.RemovePlayerHUD(uuid);
         }
     }
 
     void OnEnemyAdd(Enemy enemy, string key)
     {
+        if (enemies.ContainsKey(enemy.uuid)) return;
+
         var angle = Quaternion.identity.eulerAngles;
         angle.z = (float)enemy.angle * 180 / Mathf.PI;
         GameObject enemy_gameobject = Object.Instantiate(Resources.Load<GameObject>("enemies/" + enemy.modelType), new Vector3(enemy.position.x, enemy.position.y, 0), Quaternion.Euler(angle)) as GameObject;
         enemy_gameobject.name = "Enemy" + enemy.modelType;
         enemy_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
-        enemies.Add(enemy, enemy_gameobject);
+        enemies.Add(enemy.uuid, enemy_gameobject);
 
         enemy.OnChange += (changes) =>
         {
             changes.ForEach((obj) =>
         {
             GameObject enemy_go;
-            if (enemies.TryGetValue(enemy, out enemy_go))
+            if (enemies.TryGetValue(enemy.uuid, out enemy_go))
             {
                 if (obj.Field == "position")
                 {
@@ -272,10 +305,27 @@ public class SB_Game
                 }
                 if (obj.Field == "angle")
                 {
-                    Debug.Log("Angle updated");
                     angle = enemy_go.transform.rotation.eulerAngles;
                     angle.z = (float)obj.Value * 180 / Mathf.PI;
                     enemy_go.transform.rotation = Quaternion.Euler(angle);
+                }
+                if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
+                {
+                    if (enemy.bulletInvulnerable == true && enemy.collisionInvulnerable == true)
+                    {
+                        enemy_go.transform.Find("ForceField").gameObject.SetActive(true);
+                        enemy_go.transform.Find("RammingShield").gameObject.SetActive(false);
+                    }
+                    else if (enemy.collisionInvulnerable == true)
+                    {
+                        enemy_go.transform.Find("ForceField").gameObject.SetActive(false);
+                        enemy_go.transform.Find("RammingShield").gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        enemy_go.transform.Find("ForceField").gameObject.SetActive(false);
+                        enemy_go.transform.Find("RammingShield").gameObject.SetActive(false);
+                    }
                 }
             }
             else
@@ -288,30 +338,38 @@ public class SB_Game
 
     void OnEnemyRemove(Enemy enemy, string key)
     {
+        RemoveEnemy(enemy.uuid);
+    }
+
+    void RemoveEnemy(string uuid)
+    {
         GameObject enemy_go;
-        if (enemies.TryGetValue(enemy, out enemy_go))
+        if (enemies.TryGetValue(uuid, out enemy_go))
         {
             GameObject explosion_gameobject = Object.Instantiate(Resources.Load<GameObject>("explosions/EnemyExplosion_1"), enemy_go.transform.position, Quaternion.identity) as GameObject;
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
             Object.Destroy(enemy_go);
-            enemies.Remove(enemy);
+            enemies.Remove(uuid);
         }
     }
 
     void OnBulletAdd(Bullet bullet, string key)
     {
+
+        if (bullets.ContainsKey(bullet.uuid)) return;
+
         GameObject bullet_gameobject = Object.Instantiate(Resources.Load<GameObject>("bullets/" + bullet.bulletMesh), new Vector3(bullet.position.x, bullet.position.y, 0), Quaternion.identity) as GameObject;
         //TODO: Set the material for the bullet
         bullet_gameobject.name = "Bullet" + bullet.bulletMesh;
         bullet_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
-        bullets.Add(bullet, bullet_gameobject);
+        bullets.Add(bullet.uuid, bullet_gameobject);
 
         bullet.OnChange += (changes) =>
         {
             changes.ForEach((obj) =>
         {
             GameObject bullet_go;
-            if (bullets.TryGetValue(bullet, out bullet_go))
+            if (bullets.TryGetValue(bullet.uuid, out bullet_go))
             {
                 if (obj.Field == "position")
                 {
@@ -330,7 +388,7 @@ public class SB_Game
     void OnBulletRemove(Bullet bullet, string key)
     {
         GameObject bullet_go;
-        if (bullets.TryGetValue(bullet, out bullet_go))
+        if (bullets.TryGetValue(bullet.uuid, out bullet_go))
         {
             Object.Destroy(bullet_go);
             GameObject explosion_gameobject;
@@ -343,7 +401,47 @@ public class SB_Game
                 explosion_gameobject = SB_Explosion.GetExplosion(5, bullet_go.transform.position);
             }
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
-            bullets.Remove(bullet);
+            bullets.Remove(bullet.uuid);
+        }
+    }
+
+    void OnDropAdd(Drop drop, string key)
+    {
+
+        if (drops.ContainsKey(drop.uuid)) return;
+
+        GameObject drop_gameobject = Object.Instantiate(Resources.Load<GameObject>("drops/" + drop.modelType), new Vector3(drop.position.x, drop.position.y, 0), Quaternion.identity) as GameObject;
+        drop_gameobject.name = "Drop" + drop.modelType;
+        drop_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
+        drops.Add(drop.uuid, drop_gameobject);
+
+        drop.OnChange += (changes) =>
+        {
+            changes.ForEach((obj) =>
+            {
+                GameObject drop_go;
+                if (drops.TryGetValue(drop.uuid, out drop_go))
+                {
+                    if (obj.Field == "position")
+                    {
+                        Vector3 next_position = drop_go.transform.position;
+                        Position pos = (Position)obj.Value;
+                        next_position.x = pos.x;
+                        next_position.y = pos.y;
+                        drop_go.transform.position = next_position;
+                    }
+                }
+            });
+        };
+    }
+
+    void OnDropRemove(Drop drop, string key)
+    {
+        GameObject drop_go;
+        if (drops.TryGetValue(drop.uuid, out drop_go))
+        {
+            Object.Destroy(drop_go);
+            drops.Remove(drop.uuid);
         }
     }
 
