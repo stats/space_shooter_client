@@ -95,14 +95,13 @@ public class SB_Shipyard_Screen : MonoBehaviour
         if(m_ShipStatValuesText != null)
         {
             m_ShipStatValuesText.text = ship.level + "\n" + ship.rank + "\n" + ship.killScore + "\n" +
-                                        ship.kills + "/" + ship.nextLevel + "\n\n" + 
+                                        ship.kills + "/" + ship.nextLevel + "\n\n" +
                                         ship.damage + " (" + ship.upgradeDamage + ")\n" +
-                                        ship.fireRate + " (" + ship.upgradeFireRate + ")\n" + 
+                                        ship.fireRate + " (" + ship.upgradeFireRate + ")\n" +
                                         ship.range + " (" + ship.upgradeRange + ")\n\n" +
-                                        ship.maxShields + " (" + ship.upgradeShieldsMax + ")\n" + 
-                                        ship.shieldsRechargeTime + " (" + ship.upgradeShieldsRecharge + ")\n\n" + 
-                                        ship.speed + " (" + ship.upgradeSpeed + ")\n" + 
-                                        ship.accelleration + " (" + ship.upgradeAccelleration + ")";
+                                        ship.maxShield + " (" + ship.upgradeShield + ")\n" +
+                                        ship.shieldRechargeCooldown + " (" + ship.upgradeShieldRecharge + ")\n\n" +
+                                        ship.speed + " (" + ship.upgradeSpeed + ")\n";
         }
         if(m_UpgradeAvailable)
         {

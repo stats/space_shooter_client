@@ -14,6 +14,7 @@ namespace ZombieHeadGames.UI
         [Header("Main Properties")]
         public ZHG_UI_Screen m_StartScreen;
         public ZHG_FlashMessage m_FlashMessage;
+        public SB_BossAnnounce m_BossAnnounce;
         public SB_Game_HUD m_HUD;
 
         [Header("System Events")]
@@ -139,6 +140,11 @@ namespace ZombieHeadGames.UI
             {
                 m_FlashMessage.ShowMessage(message, delay);
             }
+        }
+
+        public void AnnounceBoss()
+        {
+            m_BossAnnounce.Show();
         }
 
         public void ShowHUD()

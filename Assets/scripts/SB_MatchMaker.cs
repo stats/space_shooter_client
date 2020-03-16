@@ -17,7 +17,7 @@ public class SB_MatchMaker
     public GameObject m_PlayerContainer;
 
     private SB_RoomManager RoomManager;
-    private Room<IndexedDictionary<string,object>> matchRoom;
+    private Room<ShipBuilderState> matchRoom;
 
     public SB_MatchMaker(SB_RoomManager manager)
     {
@@ -26,7 +26,7 @@ public class SB_MatchMaker
 
     public async void EnterMatchMaker(Dictionary<string, object> options)
     {
-        matchRoom = await RoomManager.JoinOrCreate<IndexedDictionary<string,object>>("MatchMakerRoom", options);
+        matchRoom = await RoomManager.JoinOrCreate<ShipBuilderState>("MatchMakerRoom", options);
         matchRoom.OnMessage += OnMatchMessage;
         RoomManager.HandleOnEnterMatchMaking();
     }
@@ -42,22 +42,20 @@ public class SB_MatchMaker
         {
             Debug.Log("Number of ships in matchmaker: " + msg);
         }
+        else if (msg is ShipList)
+        {
+            Debug.Log("ShipList message received.");
+            ShipList sl = msg as ShipList;
+            RoomManager.ClearMatchMakerShips();
+            RoomManager.AddMatchMakerShips(sl);
+        }
         else if (msg.GetType() == typeof(IndexedDictionary<string, object>))
         {
-            IndexedDictionary<string, object> message = (IndexedDictionary<string, object>)msg;
-            if (message.ContainsKey("ships"))
-            {
-                List<Ship> ships = SB_ShipHelper.ObjectToShips((List<object>)message["ships"]);
-                RoomManager.ClearMatchMakerShips();
-                RoomManager.AddMatchMakerShips(ships);
-            }
-            else
-            {
-                MatchMakeResponse response = GetResponseObject(msg);
-                RoomManager.HandleEnterGame(response);
-                await this.matchRoom.Send(1);
-                RoomManager.HandleOnMatchFound();
-            }  
+            MatchMakeResponse response = GetResponseObject(msg);
+            RoomManager.HandleEnterGame(response);
+            await this.matchRoom.Send(1);
+            RoomManager.HandleOnMatchFound();
+             
         } 
     }
 

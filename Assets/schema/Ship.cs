@@ -51,7 +51,7 @@ public class Ship : Entity {
 	public float currentKills = 0;
 
 	[Type(20, "int32")]
-	public int shields = 0;
+	public int shield = 0;
 
 	[Type(21, "number")]
 	public float damage = 0;
@@ -63,63 +63,57 @@ public class Ship : Entity {
 	public float range = 0;
 
 	[Type(24, "int32")]
-	public int maxShields = 0;
+	public int maxShield = 0;
 
 	[Type(25, "number")]
-	public float shieldsRechargeCooldown = 0;
+	public float shieldRechargeCooldown = 0;
 
 	[Type(26, "number")]
-	public float shieldsRechargeTime = 0;
+	public float shieldRechargeTime = 0;
 
 	[Type(27, "number")]
 	public float speed = 0;
 
 	[Type(28, "number")]
-	public float accelleration = 0;
-
-	[Type(29, "number")]
 	public float rank = 0;
 
-	[Type(30, "number")]
+	[Type(29, "number")]
 	public float highestWave = 0;
 
-	[Type(31, "number")]
+	[Type(30, "number")]
 	public float level = 0;
 
-	[Type(32, "number")]
+	[Type(31, "number")]
 	public float previousLevel = 0;
 
-	[Type(33, "number")]
+	[Type(32, "number")]
 	public float nextLevel = 0;
 
-	[Type(34, "int32")]
+	[Type(33, "int32")]
 	public int upgradePoints = 0;
 
-	[Type(35, "int32")]
+	[Type(34, "int32")]
 	public int upgradeDamage = 0;
 
-	[Type(36, "int32")]
+	[Type(35, "int32")]
 	public int upgradeRange = 0;
 
-	[Type(37, "int32")]
+	[Type(36, "int32")]
 	public int upgradeFireRate = 0;
 
-	[Type(38, "int32")]
-	public int upgradeAccelleration = 0;
-
-	[Type(39, "int32")]
+	[Type(37, "int32")]
 	public int upgradeSpeed = 0;
 
-	[Type(40, "int32")]
-	public int upgradeShieldsMax = 0;
+	[Type(38, "int32")]
+	public int upgradeShield = 0;
 
-	[Type(41, "int32")]
-	public int upgradeShieldsRecharge = 0;
+	[Type(39, "int32")]
+	public int upgradeShieldRecharge = 0;
 
-	[Type(42, "array", typeof(ArraySchema<TempUpgrade>))]
+	[Type(40, "array", typeof(ArraySchema<TempUpgrade>))]
 	public ArraySchema<TempUpgrade> tempUpgrades = new ArraySchema<TempUpgrade>();
 
-	[Type(43, "number")]
+	[Type(41, "number")]
 	public float tempUpgradeTimer = 0;
 }
 

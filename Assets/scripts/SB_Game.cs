@@ -119,7 +119,15 @@ public class SB_Game
         }
         else
         {
-            RoomManager.ShowMessage(msg.ToString(), 1.5f);
+            if(msg.ToString().StartsWith("Boss Incoming"))
+            {
+                Debug.Log("Announcing Boss");
+                RoomManager.AnnounceBoss();
+            }
+            else
+            {
+                RoomManager.ShowMessage(msg.ToString(), 1.5f);
+            }
         }
     }
 
@@ -166,7 +174,11 @@ public class SB_Game
 
     void OnShipAdd(Ship ship, string key)
     {
-        if (ships.ContainsKey(ship.uuid)) return;
+        if (ships.ContainsKey(ship.uuid))
+        {
+            Debug.Log("Scene already contains " + ship.uuid);
+            return;
+        }
 
         GameObject ship_gameobject = Object.Instantiate(Resources.Load<GameObject>("Ship"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         ShipGameObject sgo = ship_gameobject.GetComponent<ShipGameObject>();
@@ -188,8 +200,8 @@ public class SB_Game
         hud.SetShipName(ship.name);
         hud.SetPrimary((float)ship.primaryCooldown / (float)ship.primaryCooldownMax);
         hud.SetSpecial((float)ship.specialCooldown / (float)ship.specialCooldownMax);
-        hud.SetShields(ship.shields, ship.maxShields);
-        hud.SetShieldRecharge((float)ship.shieldsRechargeCooldown / (float)ship.shieldsRechargeTime);
+        hud.SetShield(ship.shield, ship.maxShield);
+        hud.SetShieldRecharge((float)ship.shieldRechargeTime / (float)ship.shieldRechargeCooldown);
         hud.SetExperience((int)(ship.kills - ship.previousLevel), (int)(ship.nextLevel - ship.previousLevel));
 
         RoomManager.AddPlayerHUD(ship.uuid, hud);
@@ -197,64 +209,68 @@ public class SB_Game
         ship.OnChange += (changes) =>
         {
             changes.ForEach((obj) =>
-        {
-            GameObject ship_go;
-            if (ships.TryGetValue(ship.uuid, out ship_go))
             {
-                if (obj.Field == "position")
+                GameObject ship_go;
+                if (ships.TryGetValue(ship.uuid, out ship_go))
                 {
-                    Vector3 next_position = ship_go.transform.position;
-                    Position pos = (Position)obj.Value;
-                    next_position.x = pos.x;
-                    next_position.y = pos.y;
-                    ship_go.transform.position = next_position;
-                }
-                if (obj.Field == "primaryCooldown")
-                {
-                    RoomManager.UpdatePlayerHUDPrimary(ship.uuid, (float)ship.primaryCooldown / (float)ship.primaryCooldownMax);
-                }
-                if (obj.Field == "specialCooldown")
-                {
-                    RoomManager.UpdatePlayerHUDSpecial(ship.uuid, (float)ship.specialCooldown / (float)ship.specialCooldownMax);
-                }
-                if (obj.Field == "shields" || obj.Field == "shieldsMax")
-                {
-                    RoomManager.UpdatePlayerHUDShields(ship.uuid, ship.shields, ship.maxShields);
-                }
-                if (obj.Field == "shieldsRechargeTime" || obj.Field == "shieldsRechargeCooldown")
-                {
+                    if (obj.Field == "position")
+                    {
+                        Vector3 next_position = ship_go.transform.position;
+                        Position pos = (Position)obj.Value;
+                        next_position.x = pos.x;
+                        next_position.y = pos.y;
+                        ship_go.transform.position = next_position;
+                    }
+                    if (obj.Field == "primaryCooldown")
+                    {
+                        RoomManager.UpdatePlayerHUDPrimary(ship.uuid, (float)ship.primaryCooldown / (float)ship.primaryCooldownMax);
+                    }
+                    if (obj.Field == "specialCooldown")
+                    {
+                        RoomManager.UpdatePlayerHUDSpecial(ship.uuid, (float)ship.specialCooldown / (float)ship.specialCooldownMax);
+                    }
+                    if (obj.Field == "shield" || obj.Field == "shieldMax")
+                    {
+                        RoomManager.UpdatePlayerHUDShield(ship.uuid, ship.shield, ship.maxShield);
+                    }
+                    if (obj.Field == "shieldRechargeTime" || obj.Field == "shieldRechargeCooldown")
+                    {
 
-                    hud.SetShieldRecharge((float)ship.shieldsRechargeCooldown / (float)ship.shieldsRechargeTime);
-                }
-                if (obj.Field == "kills")
-                {
-                    RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previousLevel), (int)(ship.nextLevel - ship.previousLevel));
-                }
-                if (obj.Field == "level")
-                {
-                    RoomManager.ShowMessage(ship.name + " is now level " + ship.level + ". " + (int)(ship.nextLevel - ship.previousLevel) + " kills to next level.", 3);
-                }
-                if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
-                {
-                    if (ship.bulletInvulnerable == true && ship.collisionInvulnerable == true)
-                    {
-                        ship_go.GetComponent<ShipGameObject>().ActivateForceField();
-                    } 
-                    else if (ship.collisionInvulnerable == true)
-                    {
-                        ship_go.GetComponent<ShipGameObject>().ActivateRammingShield();
+                        hud.SetShieldRecharge((float)ship.shieldRechargeTime / (float)ship.shieldRechargeCooldown);
                     }
-                    else
+                    if (obj.Field == "kills")
                     {
-                        ship_go.GetComponent<ShipGameObject>().DeactivateShields();
+                        RoomManager.UpdatePlayerHUDExperience(ship.uuid, (int)(ship.kills - ship.previousLevel), (int)(ship.nextLevel - ship.previousLevel));
+                    }
+                    if (obj.Field == "level")
+                    {
+                        RoomManager.ShowMessage(ship.name + " is now level " + ship.level + ". " + (int)(ship.nextLevel - ship.previousLevel) + " kills to next level.", 3);
+                    }
+                    if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
+                    {
+                        if (ship.bulletInvulnerable == true && ship.collisionInvulnerable == true)
+                        {
+                            ship_go.GetComponent<ShipGameObject>().ActivateForceField();
+                        } 
+                        else if (ship.collisionInvulnerable == true)
+                        {
+                            ship_go.GetComponent<ShipGameObject>().ActivateRammingShield();
+                        }
+                        else
+                        {
+                            ship_go.GetComponent<ShipGameObject>().DeactivateShield();
+                        }
+                    }
+                    if(obj.Field == "invisible")
+                    {
+                        ship_go.GetComponent<ShipGameObject>().SetInvisibility(ship.invisible);
                     }
                 }
-                if(obj.Field == "invisible")
+                else
                 {
-                    ship_go.GetComponent<ShipGameObject>().SetInvisibility(ship.invisible);
+                    Debug.Log("Could not get the ship");
                 }
-            }
-        });
+            });
         };
     }
 
@@ -278,7 +294,11 @@ public class SB_Game
 
     void OnEnemyAdd(Enemy enemy, string key)
     {
-        if (enemies.ContainsKey(enemy.uuid)) return;
+        if (enemies.ContainsKey(enemy.uuid))
+        {
+            Debug.Log("Enemy already added " + enemy.uuid);
+            return;
+        }
 
         var angle = Quaternion.identity.eulerAngles;
         angle.z = (float)enemy.angle * 180 / Mathf.PI;
@@ -287,53 +307,66 @@ public class SB_Game
         enemy_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
         enemies.Add(enemy.uuid, enemy_gameobject);
 
+        SetEnemyShield(enemy, enemy_gameobject);
+
         enemy.OnChange += (changes) =>
         {
             changes.ForEach((obj) =>
-        {
-            GameObject enemy_go;
-            if (enemies.TryGetValue(enemy.uuid, out enemy_go))
             {
-                if (obj.Field == "position")
+                GameObject enemy_go;
+                if (enemies.TryGetValue(enemy.uuid, out enemy_go))
                 {
-                    //Debug.Log("Changing X " + obj.Value);
-                    Vector3 next_position = enemy_go.transform.position;
-                    Position pos = (Position)obj.Value;
-                    next_position.x = pos.x;
-                    next_position.y = pos.y;
-                    enemy_go.transform.position = next_position;
-                }
-                if (obj.Field == "angle")
-                {
-                    angle = enemy_go.transform.rotation.eulerAngles;
-                    angle.z = (float)obj.Value * 180 / Mathf.PI;
-                    enemy_go.transform.rotation = Quaternion.Euler(angle);
-                }
-                if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
-                {
-                    if (enemy.bulletInvulnerable == true && enemy.collisionInvulnerable == true)
+                    if (obj.Field == "position")
                     {
-                        enemy_go.transform.Find("ForceField").gameObject.SetActive(true);
-                        enemy_go.transform.Find("RammingShield").gameObject.SetActive(false);
+                        //Debug.Log("Changing X " + obj.Value);
+                        Vector3 next_position = enemy_go.transform.position;
+                        Position pos = (Position)obj.Value;
+                        next_position.x = pos.x;
+                        next_position.y = pos.y;
+                        enemy_go.transform.position = next_position;
                     }
-                    else if (enemy.collisionInvulnerable == true)
+                    if (obj.Field == "angle")
                     {
-                        enemy_go.transform.Find("ForceField").gameObject.SetActive(false);
-                        enemy_go.transform.Find("RammingShield").gameObject.SetActive(true);
+                        angle = enemy_go.transform.rotation.eulerAngles;
+                        angle.z = (float)obj.Value * 180 / Mathf.PI;
+                        enemy_go.transform.rotation = Quaternion.Euler(angle);
                     }
-                    else
+                    if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
                     {
-                        enemy_go.transform.Find("ForceField").gameObject.SetActive(false);
-                        enemy_go.transform.Find("RammingShield").gameObject.SetActive(false);
+                        SetEnemyShield(enemy, enemy_go);
                     }
                 }
+                else
+                {
+                    Debug.LogError("[SB_RoomManager] Could not get enemy game object: " + key);
+                }
+            });
+        };
+    }
+
+    void SetEnemyShield(Enemy enemy, GameObject enemy_go)
+    {
+        try { 
+            if (enemy.bulletInvulnerable == true && enemy.collisionInvulnerable == true)
+            {
+                enemy_go.transform.Find("ForceField").gameObject.SetActive(true);
+                enemy_go.transform.Find("RammingShield").gameObject.SetActive(false);
+            }
+            else if (enemy.collisionInvulnerable == true)
+            {
+                enemy_go.transform.Find("ForceField").gameObject.SetActive(false);
+                enemy_go.transform.Find("RammingShield").gameObject.SetActive(true);
             }
             else
             {
-                Debug.LogError("[SB_RoomManager] Could not get enemy game object: " + key);
+                enemy_go.transform.Find("ForceField").gameObject.SetActive(false);
+                enemy_go.transform.Find("RammingShield").gameObject.SetActive(false);
             }
-        });
-        };
+        } 
+        catch
+        {
+            //Do nothing
+        }
     }
 
     void OnEnemyRemove(Enemy enemy, string key)
@@ -346,7 +379,8 @@ public class SB_Game
         GameObject enemy_go;
         if (enemies.TryGetValue(uuid, out enemy_go))
         {
-            GameObject explosion_gameobject = Object.Instantiate(Resources.Load<GameObject>("explosions/EnemyExplosion_1"), enemy_go.transform.position, Quaternion.identity) as GameObject;
+            int r = Random.Range(1, 3);
+            GameObject explosion_gameobject = Object.Instantiate(Resources.Load<GameObject>("explosions/EnemyExplosion_" + r), enemy_go.transform.position, Quaternion.identity) as GameObject;
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
             Object.Destroy(enemy_go);
             enemies.Remove(uuid);
@@ -398,7 +432,7 @@ public class SB_Game
             }
             else
             {
-                explosion_gameobject = SB_Explosion.GetExplosion(5, bullet_go.transform.position);
+                explosion_gameobject = SB_Explosion.GetExplosion(1, bullet_go.transform.position);
             }
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
             bullets.Remove(bullet.uuid);

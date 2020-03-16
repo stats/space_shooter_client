@@ -59,7 +59,7 @@ public class SB_PlayerHUD : MonoBehaviour
       }
     }
 
-    public void SetShields(int shield, int shieldMax)
+    public void SetShield(int shield, int shieldMax)
     {
       if(!m_ShieldMask || !m_ShieldText) return;
 

@@ -221,8 +221,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0.06132078, b: 0.7294942, a: 1}
-      maxColor: {r: 1, g: 0.5613208, b: 0.85377353, a: 1}
+      minColor: {r: 0.9962384, g: 1, b: 0.4575472, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4780,7 +4780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4152120345721314127}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4152120346723260590}
@@ -4975,8 +4975,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0.7028302, b: 0.8744011, a: 0.44705883}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.4745098}
+      minColor: {r: 1, g: 0.9422108, b: 0.495283, a: 0.48235294}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.5019608}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5038,7 +5038,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 30
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6057,9 +6057,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0, b: 0.59063005, a: 0.13725491}
-        key1: {r: 0.93725497, g: 0, b: 0.5568628, a: 0}
-        key2: {r: 0, g: 0, b: 0, a: 0.13725491}
+        key0: {r: 1, g: 1, b: 1, a: 0.43137255}
+        key1: {r: 1, g: 1, b: 1, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 0.43137255}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -6073,7 +6073,7 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 193
+        atime0: 0
         atime1: 32768
         atime2: 65535
         atime3: 0

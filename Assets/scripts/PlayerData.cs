@@ -23,10 +23,9 @@ public class PlayerData
         {"Damage", 0},
         {"Range", 0},
         {"FireRate", 0},
-        {"Accelleration", 0},
         {"Speed", 0},
-        {"ShieldsMax", 0},
-        {"ShieldsRecharge", 0}
+        {"Shield", 0},
+        {"ShieldRecharge", 0}
     };
 
     public static void SetUnlocks(UnlockMessage u)
@@ -62,10 +61,9 @@ public class PlayerData
             {"Damage", 0},
             {"Range", 0},
             {"FireRate", 0},
-            {"Accelleration", 0},
             {"Speed", 0},
-            {"ShieldsMax", 0},
-            {"ShieldsRecharge", 0}
+            {"Shield", 0},
+            {"ShieldRecharge", 0}
         };
     }
 }

@@ -39,7 +39,7 @@ public class ShipGameObject : MonoBehaviour
         _RammingShield.SetActive(true);
     }
 
-    public void DeactivateShields()
+    public void DeactivateShield()
     {
         _ForceField.SetActive(false);
         _RammingShield.SetActive(false);

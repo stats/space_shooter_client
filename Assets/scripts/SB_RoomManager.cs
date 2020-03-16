@@ -159,6 +159,11 @@ public class SB_RoomManager : MonoBehaviour
         Debug.LogError("Error: " + message);
     }
 
+    public void AnnounceBoss()
+    {
+        m_UI.AnnounceBoss();
+    }
+
     public void HandleMessage(string message)
     {
         ShowMessage(message, 3);
@@ -235,9 +240,9 @@ public class SB_RoomManager : MonoBehaviour
         m_UI.m_HUD.GetPlayerHUD(uuid).SetSpecial(special);
     }
 
-    public void UpdatePlayerHUDShields(string uuid, int shields, int shieldsMax)
+    public void UpdatePlayerHUDShield(string uuid, int shield, int shieldMax)
     {
-        m_UI.m_HUD.GetPlayerHUD(uuid).SetShields(shields, shieldsMax);
+        m_UI.m_HUD.GetPlayerHUD(uuid).SetShield(shield, shieldMax);
     }
 
     public void UpdatePlayerHUDExperience(string uuid, int experience, int nextLevel)
@@ -495,14 +500,14 @@ public class SB_RoomManager : MonoBehaviour
         }
     }
 
-    public void AddMatchMakerShips(List<Ship> ships)
+    public void AddMatchMakerShips(ShipList sl)
     {
-        foreach (Ship ship in ships)
-        {
-            GameObject matchShip = Instantiate(Resources.Load<GameObject>("MatchShip"), new Vector3(0, 0, 0), Quaternion.identity);
-            matchShip.GetComponent<SB_MatchShip>().SetShip(ship);
-            matchShip.transform.SetParent(m_MatchMakerShipContainer.transform);
-        }
+        sl.ships.ForEach(delegate (string uuid, Ship ship)
+         {
+             GameObject matchShip = Instantiate(Resources.Load<GameObject>("MatchShip"), new Vector3(0, 0, 0), Quaternion.identity);
+             matchShip.GetComponent<SB_MatchShip>().SetShip(ship);
+             matchShip.transform.SetParent(m_MatchMakerShipContainer.transform);
+         });
     }
 
     public void ClearMatchMakerShips()

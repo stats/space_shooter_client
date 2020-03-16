@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4860484068131287801}
   - component: {fileID: 5105501774256499026}
   m_Layer: 0
-  m_Name: EnemyExplosion_1
+  m_Name: EnemyExplosion_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,8 +222,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0.16611588, b: 0, a: 1}
-      maxColor: {r: 1, g: 0.4764151, b: 0.83510715, a: 1}
+      minColor: {r: 0, g: 1, b: 0.01848054, a: 1}
+      maxColor: {r: 1, g: 0.97552174, b: 0.47450984, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
