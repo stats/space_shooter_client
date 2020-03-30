@@ -21,6 +21,8 @@ public class SB_Game
     private IndexedDictionary<string, GameObject> bullets = new IndexedDictionary<string, GameObject>();
     private IndexedDictionary<string, GameObject> drops = new IndexedDictionary<string, GameObject>();
 
+    private IndexedDictionary<string, SB_HealthBar> EnemyHealthBars = new IndexedDictionary<string, SB_HealthBar>();
+
     public SB_Game(SB_RoomManager manager)
     {
         RoomManager = manager;
@@ -309,6 +311,8 @@ public class SB_Game
 
         SetEnemyShield(enemy, enemy_gameobject);
 
+        AddEnemyHealthBar(enemy.uuid, (int)enemy.health, enemy_gameobject.transform.position);
+
         enemy.OnChange += (changes) =>
         {
             changes.ForEach((obj) =>
@@ -323,13 +327,19 @@ public class SB_Game
                         Position pos = (Position)obj.Value;
                         next_position.x = pos.x;
                         next_position.y = pos.y;
+                        next_position.z = 0;
                         enemy_go.transform.position = next_position;
+                        MoveEnemyHealthBar(enemy.uuid, next_position);
                     }
                     if (obj.Field == "angle")
                     {
                         angle = enemy_go.transform.rotation.eulerAngles;
                         angle.z = (float)obj.Value * 180 / Mathf.PI;
                         enemy_go.transform.rotation = Quaternion.Euler(angle);
+                    }
+                    if(obj.Field == "health")
+                    {
+                        SetHealthBarValue(enemy.uuid, Mathf.RoundToInt((float)obj.Value));
                     }
                     if (obj.Field == "bulletInvulnerable" || obj.Field == "collisionInvulnerable")
                     {
@@ -371,6 +381,7 @@ public class SB_Game
 
     void OnEnemyRemove(Enemy enemy, string key)
     {
+        RemoveEnemyHealthBar(enemy.uuid);
         RemoveEnemy(enemy.uuid);
     }
 
@@ -384,6 +395,48 @@ public class SB_Game
             explosion_gameobject.transform.SetParent(RoomManager.m_Game_GRP.transform);
             Object.Destroy(enemy_go);
             enemies.Remove(uuid);
+        }
+    }
+
+    void AddEnemyHealthBar(string uuid, int hp, Vector3 pos)
+    {
+        if(EnemyHealthBars.ContainsKey(uuid) == false)
+        {
+            pos.z = 0;
+            SB_HealthBar health = Object.Instantiate(Resources.Load<SB_HealthBar>("HealthBar"), pos, Quaternion.identity) as SB_HealthBar;
+            health.gameObject.transform.SetParent(RoomManager.m_WorldSpaceHUD.transform);
+            RectTransform rect = health.gameObject.transform.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(70, 9);
+            health.SetMaxHealth(hp);
+            EnemyHealthBars.Add(uuid, health);
+        }
+    }
+
+    void RemoveEnemyHealthBar(string uuid)
+    {
+        if(EnemyHealthBars.ContainsKey(uuid) )
+        {
+            Object.Destroy(EnemyHealthBars[uuid].gameObject);
+            EnemyHealthBars.Remove(uuid);
+        }
+    }
+
+    void MoveEnemyHealthBar(string uuid, Vector3 pos)
+    {
+        if(EnemyHealthBars.ContainsKey(uuid))
+        {
+            SB_HealthBar health = EnemyHealthBars[uuid];
+            pos = pos + (Vector3.up * 30.0f);
+            pos.z = -200;
+            health.gameObject.transform.position = pos;
+        }
+    }
+
+    void SetHealthBarValue(string uuid, int hp)
+    {
+        if(EnemyHealthBars.ContainsKey(uuid))
+        {
+            EnemyHealthBars[uuid].SetHealth(hp);
         }
     }
 

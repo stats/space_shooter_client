@@ -8,7 +8,10 @@
 using Colyseus.Schema;
 
 public class Enemy : Entity {
-	[Type(6, "string")]
+	[Type(6, "number")]
+	public float health = 0;
+
+	[Type(7, "string")]
 	public string modelType = "";
 }
 

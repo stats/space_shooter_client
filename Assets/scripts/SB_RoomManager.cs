@@ -19,6 +19,7 @@ public class SB_RoomManager : MonoBehaviour
     [Header("Main Properties")]
     public ZHG_UI_System m_UI;
     public GameObject m_Game_GRP;
+    public GameObject m_WorldSpaceHUD;
 
     [Header("Match Maker Properties")]
     public GameObject m_MatchMakerShipContainer;
